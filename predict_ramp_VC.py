@@ -13,7 +13,7 @@ def main():
                         help='Path to finetuned MOS prediction checkpoint.')
     parser.add_argument('--datastore_path', type=str, default='datastore_profile_vc',
                         help='Path to finetuned MOS prediction checkpoint.')
-    parser.add_argument('--wavdir', type=str, default='example_samples',
+    parser.add_argument('--wavdir', type=str, default='example_samples_vc',
                         help='Path to finetuned MOS prediction checkpoint.')
     parser.add_argument('--outfile', type=str, required=False, default='test_answer_vc.txt',
                         help='Output filename for your answer.txt.')

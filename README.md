@@ -13,8 +13,9 @@ This repository provides everything you need to evaluate and predict MOS (Mean O
 
 ### 1. **Download Code and Checkpoint**
 
-Get started by cloning the repository and downloading [the necessary checkpoint file](https://drive.google.com/file/d/1-l5huyOHWXFtSlGfHnHJVA7dcVS2RSdM/view?usp=sharing) to `RAMP_MOS/model_ckpt`:
+Get started by cloning the repository and downloading [the necessary checkpoint file](https://drive.google.com/file/d/1-l5huyOHWXFtSlGfHnHJVA7dcVS2RSdM/view?usp=sharing) to `NKben_RAMPMOS/model_ckpt`:
 
+For Voice Concersion(VC) task, download [datastore_profile_vc](https://drive.google.com/drive/folders/12dmLPFIB8V2-lV3yTxfI4h4Eo6pLR5WP?usp=drive_link) to `NKben_RAMPMOS` and download [`ramp_ckpt_vc`]() to `NKben_RAMPMOS/model_ckpt`. 
 
 ### 2. **Set Up the Environment**
 
@@ -41,9 +42,9 @@ Use `predict_ramp.py` to generate predictions. Just point to the checkpoint, dat
 python predict_ramp.py
 ```
 
-For voice conversion evaluation, use `predict_ramp_vc.py`
+For voice conversion evaluation, use `predict_ramp_VC.py`
 ```
-python predict_ramp_vc.py
+python predict_ramp_VC.py
 ```
 
 ### Parameters:
