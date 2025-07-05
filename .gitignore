@@ -8,3 +8,8 @@ datastore_profile/od_sys_array.pkl
 test_answer.txt
 datastore_profile_vc
 test_answer_vc.txt
+__pycache__/
+*.pyc
+output/
+*.pt
+*.pth
