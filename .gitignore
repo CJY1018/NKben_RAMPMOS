@@ -13,3 +13,6 @@ __pycache__/
 output/
 *.pt
 *.pth
+pretrained_models/
+CosyVoice/
+TTS/

@@ -1,31 +1,33 @@
 import os
 import argparse
-# TODO: If the TTS library is used, place it in the Upstream directory and add it to the python environment
-# import sys
-# current_script_dir = os.path.dirname(os.path.abspath(__file__))
-# sys.path.append(os.path.join(current_script_dir, 'TTS library'))
+import sys
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(current_script_dir, 'TTS'))
 import uuid
 import torch
 import pandas as pd
 
+from TTS.api import TTS
+
 
 tts = None
 
-def run_tts(row, lang):
+def run_tts(row, lang):    
     global tts
     infer_text = row['infer_text']
     prompt_wav = row['prompt_wav']
-    prompt_text = row['prompt_text']
     
     prompt_wav_path = f"InputData/{lang}/{prompt_wav}"
     save_wav_path = f"InputData/{lang}/wavs/{os.path.basename(prompt_wav)[:-4]}_xtts_{uuid.uuid4()}.wav"
     
     # Run TTS
     try:
-        # TODO: Implement TTS inference and save the output
-        # wav = tts.inference(infer_text, prompt_wav_path, prompt_text, lang)
-        # torchaudio.save(save_wav_path, wav, sample_rate)
-        
+        tts.tts_to_file(
+            text=infer_text,
+            speaker_wav=prompt_wav_path,
+            language=lang,
+            file_path=save_wav_path
+        )
         return os.path.basename(save_wav_path) # Return the filename
     except Exception as e:
         print(f"Error processing text '{infer_text}': {e}")
@@ -38,10 +40,11 @@ if __name__ == "__main__":
     
     # Get device
     device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    # TODO: Init TTS
-    # tts = TTS().to(device)
     
+    xtts_model_path = "Upstream/pretrained_models/XTTS-v2"
+
+    # Init TTS
+    tts = TTS(model_path=xtts_model_path, config_path=f"{xtts_model_path}/config.json").to(device)
     
     # Load meta data
     meta_data_path = f"InputData/{args.lang}/meta.csv"

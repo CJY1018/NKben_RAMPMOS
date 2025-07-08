@@ -47,25 +47,9 @@ def predict_ramp(meta_df, checkpoint, datastore_path, device):
             outputs = outputs.to('cpu').numpy()[0]
             predictions[filename] = outputs
 
-    
-    # 创建输出文件夹为output，输出文件名为ramp.csv
-    output_dir = "output"
-    os.makedirs(output_dir, exist_ok=True)
-    output_file = os.path.join(output_dir, "ramp.csv")
-    
-    # generate ramp.csv
-    output_df = None
-    
-    try:
-        output_df = pd.DataFrame(list(predictions.items()), columns=['filename', 'ramp_mos'])
-        output_df['filename'] = output_df['filename'].apply(lambda x: x.split('.')[0])  # Remove file extension
-        output_df.to_csv(output_file, index=False, header=True, sep='\t')
-        print(f"Results saved to {output_file}")
-    except Exception as e:
-        print(f"Error saving results: {e}")
-        return None
+    output_df = pd.DataFrame(list(predictions.items()), columns=['filename', 'ramp_mos'])
     
     avg_ramp = output_df['ramp_mos'].mean()
     
-    return avg_ramp
+    return output_df, avg_ramp
     

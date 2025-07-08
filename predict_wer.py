@@ -82,21 +82,12 @@ def predict_wer(meta_df, lang, device):
         raw_truth, raw_hypo, wer, subs, dele, inse = process_one(transcription, infer_text, lang)
         wer_lines.append((infer_wav, wer, raw_truth, raw_hypo, inse, dele, subs))
         
-    # 创建输出文件夹为output，输出文件名为wer.csv
-    output_dir = "output"
-    os.makedirs(output_dir, exist_ok=True)
-    output_file = os.path.join(output_dir, "wer.csv")
+    output_df = pd.DataFrame(wer_lines, columns=['infer_wav', 'wer', 'infer_text', 'asr_text', 'wer_ins', 'wer_del', 'wer_sub'])
     
-    output_df = None
+    word_counts = output_df['infer_text'].str.split().apply(len)
+    avg_wer = (output_df['wer'] * word_counts).sum() / word_counts.sum()  # 微平均 (Micro‑average)／加权平均，不影响中文计算
+    avg_wer = round(avg_wer * 100, 3)  # 转换为百分比并保留三位小数
     
-    try:
-        output_df = pd.DataFrame(wer_lines, columns=['infer_wav', 'wer', 'infer_text', 'asr_text', 'wer_ins', 'wer_del', 'wer_sub'])
-        output_df.to_csv(output_file, index=False, header=True, sep='\t')
-        print(f"Results saved to {output_file}")
-    except Exception as e:
-        print(f"Error saving results: {e}")
-        return None
+    # avg_wer = round(output_df['wer'].mean() * 100, 3) # 宏平均 (Macro-average)
     
-    avg_wer = round(output_df['wer'].mean() * 100, 3)
-    
-    return avg_wer
+    return output_df, avg_wer

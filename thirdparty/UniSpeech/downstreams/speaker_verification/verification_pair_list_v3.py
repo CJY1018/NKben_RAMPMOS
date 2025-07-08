@@ -1,4 +1,6 @@
 import os
+import sys
+sys.path.append('thirdparty/UniSpeech/downstreams/speaker_verification')
 import pandas as pd
 from tqdm import tqdm
 from verification import verification
@@ -29,21 +31,8 @@ def predict_sim(meta_df, model_name, checkpoint, wav1_start_sr, wav2_start_sr, w
         
         sim_lines.append((t1_path, wav1_start_sr, wav1_end_sr, t2_path, wav2_start_sr, wav2_end_sr, sim.cpu().item()))
         
-    # 创建输出文件夹为output，输出文件名为sim.csv
-    output_dir = "output"
-    os.makedirs(output_dir, exist_ok=True)
-    output_file = os.path.join(output_dir, "sim.csv")
-
-    output_df = None
-    
-    try:
-        output_df = pd.DataFrame(sim_lines, columns=['infer_wav', 'wav1_start_sr', 'wav1_end_sr', 'prompt_wav', 'wav2_start_sr', 'wav2_end_sr', 'similarity'])
-        output_df.to_csv(output_file, index=False, header=True, sep='\t')
-        print(f"Results saved to {output_file}")
-    except Exception as e:
-        print(f"Error saving results: {e}")
-        return None
+    output_df = pd.DataFrame(sim_lines, columns=['infer_wav', 'wav1_start_sr', 'wav1_end_sr', 'prompt_wav', 'wav2_start_sr', 'wav2_end_sr', 'similarity'])
     
     avg_score = round(output_df['similarity'].mean(), 3)
     
-    return avg_score
+    return output_df, avg_score
