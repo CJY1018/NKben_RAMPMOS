@@ -50,6 +50,7 @@ def predict_ramp(meta_df, checkpoint, datastore_path, device):
     output_df = pd.DataFrame(list(predictions.items()), columns=['filename', 'ramp_mos'])
     
     avg_ramp = output_df['ramp_mos'].mean()
+    avg_ramp = round(avg_ramp, 3)  # 保留三位小数
     
     return output_df, avg_ramp
     

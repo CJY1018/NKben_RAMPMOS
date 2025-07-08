@@ -21,12 +21,10 @@ export CUDA_VISIBLE_DEVICES=0
 export HF_ENDPOINT=https://hf-mirror.com
 
 for LANG in "${LANGUAGES[@]}"; do
-  echo "正在调用 $MODEL_NAME 模型（$LANG）..."
+  echo "正在评估 $MODEL_NAME 模型（$LANG）..."
   python run_all.py --meta_csv "InputData/${LANG}/meta_$MODEL_NAME.csv" --lang "$LANG"
 done
 
-# export CUDA_VISIBLE_DEVICES=1
-# export PYTHONPATH=$PYTHONPATH:fairseq
-# export PYTHONPATH=$PYTHONPATH:thirdparty/UniSpeech/downstreams/speaker_verification
-# bash run_downstream.sh cosyvoice2
+# conda activate eval
 # bash run_downstream.sh xtts
+# bash run_downstream.sh cosyvoice2

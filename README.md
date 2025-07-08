@@ -143,8 +143,8 @@ infer_wav|infer_text|prompt_wav|prompt_text
 #### 3.1 配置环境
 准备好使用Python 3.9.12和所需依赖项的环境：
 ```bash
-conda create -n RAMP python=3.9.12
-conda activate RAMP
+conda create -n eval python=3.9.12
+conda activate eval
 
 # Clone and install fairseq
 git clone https://github.com/pytorch/fairseq

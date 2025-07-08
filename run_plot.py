@@ -29,7 +29,7 @@ def get_metric_dict(output_dir):
                 if metric == 'wer':
                     word_counts = df['infer_text'].str.split().apply(len)
                     avg_wer = (df['wer'] * word_counts).sum() / word_counts.sum() # 微平均 (Micro‑average)／加权平均，不影响中文计算
-                    avg_wer = round(avg_wer * 100, 3)  # 转换为百分比并保留三位小数
+                    avg_wer = round(avg_wer, 3)  # 保留三位小数
                     # avg_wer = df['wer'].mean()  # 宏平均 (Macro-average)
                     metric_dict[model_name][lang]['wer'] = avg_wer
                 elif metric == 'similarity':
@@ -106,7 +106,7 @@ def plot_radar_normalized(metric_dict, language):
     # 设置指标轴标签
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(metrics, fontsize=12, fontweight='bold')
-    ax.tick_params(axis='x', pad=34)
+    ax.tick_params(axis='x', pad=40)
     
     # 设置标题和图例
     plt.title(f'TTS Performance Comparison ({language.upper()})', fontsize=14, pad=20)
