@@ -13,9 +13,9 @@
 
 3. **WavLM-large基础模型**：[wavlm_large.pt](https://huggingface.co/s3prl/converted_ckpts/resolve/main/wavlm_large.pt) 放置位置：项目根目录
 
-4. **TTS模型** [CosyVoice2](https://github.com/FunAudioLLM/CosyVoice), [XTTS](https://github.com/coqui-ai/TTS)
+4. **TTS模型** [CosyVoice2](https://github.com/FunAudioLLM/CosyVoice), [XTTS](https://github.com/coqui-ai/TTS) 通过后续代码下载
 
-5. **ASR模型** Whisper-large-v3（英文ASR） Paraformer-zh（中文ASR）
+5. **ASR模型** [Whisper-large-v3](https://huggingface.co/openai/whisper-large-v3)（英文ASR） [Paraformer-zh](https://huggingface.co/funasr/paraformer-zh)（中文ASR）项目自动下载
 
 ### 第二部分：上游运行（TTS语音合成）
 #### 2.1 下载TTS模型
@@ -97,6 +97,7 @@ bash run_upstream.sh xtts
 ```bash
 bash run_upstream.sh example
 ```
+自定义example模型的过程见[第四部分](#第四部分自定义tts接入说明)
 
 **参数说明：**
 - 模型名称（`cosyvoice2` 或 `xtts`或自定义`example`
@@ -203,3 +204,20 @@ output
   </tr>
 </table>
 
+
+### 第四部分：自定义TTS接入说明
+1. 下载自定义TTS项目到Upstream目录下
+2. 下载自定义TTS模型到Upstream/pretrained_models/TTSMODEL目录下
+3. 参考`Upstream/run_example.py`中的TODO，实现自定义的`Upstream/run_MODEL_NAME.py`
+    - 实现import引入自定义TTS
+    - 创建自定义TTS对象
+    - 完成自定义TTS推理实现
+        ```python
+        # 根据提供的待合成文本（infer_text）、参考音频路径（prompt_wav_path）、参考音频文本（prompt_text）和语种（lang）实现自定义TTS的音频合成推理
+        wav = tts.inference(infer_text, prompt_wav_path, prompt_text, lang)
+        
+        # 保存合成的音频到save_wav_path
+        torchaudio.save(save_wav_path, wav, sample_rate)
+        ```
+4. 将模型名称MODEL_NAME添加到run_upstream.sh，脚本将执行`python Upstream/run_$MODEL_NAME.py --lang "$LANG"`
+5. 运行`bash run_upstream.sh MODEL_NAME`启动上游TTS合成任务
