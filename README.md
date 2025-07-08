@@ -5,11 +5,7 @@
 
 ### 第一部分：环境和模型准备
 
-#### 1.1 环境配置
-
-见 `Readm_downstream.md` 和 `Readm_upstream.md`
-
-#### 1.2 模型下载
+#### 1.1 模型下载
 
 1. **RAMP模型检查点**：[ramp_ckpt](https://drive.google.com/file/d/1-l5huyOHWXFtSlGfHnHJVA7dcVS2RSdM/view?usp=sharing) 放置位置：`model_ckpt/ramp_ckpt`
 
