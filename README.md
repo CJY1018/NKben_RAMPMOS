@@ -100,7 +100,7 @@ bash run_upstream.sh example
 自定义example模型的过程见[第四部分](#第四部分自定义tts接入说明)
 
 **参数说明：**
-- 模型名称（`cosyvoice2` 或 `xtts`或自定义`example`
+- 模型名称 (`cosyvoice2` 或 `xtts`或自定义`example`)
 
 **输入结构：**
 ```bash
@@ -206,12 +206,9 @@ output
 
 
 ### 第四部分：自定义TTS接入说明
-1. 下载自定义TTS项目到Upstream目录下
-2. 下载自定义TTS模型到Upstream/pretrained_models/TTSMODEL目录下
-3. 参考`Upstream/run_example.py`中的TODO，实现自定义的`Upstream/run_MODEL_NAME.py`
-    - 实现import引入自定义TTS
-    - 创建自定义TTS对象
-    - 完成自定义TTS推理实现
+1. 模型准备：提供自定义TTS代码，置于到Upstream目录下，提供自定义的TTS模型到Upstream/pretrained_models/TTSMODEL目录下。若为API评测方式可跳过此步。
+2. 参考`Upstream/run_example.py`中的TODO，实现自定义的`Upstream/run_MODEL_NAME.py`
+    - 关键接口如下
         ```python
         # 根据提供的待合成文本（infer_text）、参考音频路径（prompt_wav_path）、参考音频文本（prompt_text）和语种（lang）实现自定义TTS的音频合成推理
         wav = tts.inference(infer_text, prompt_wav_path, prompt_text, lang)
