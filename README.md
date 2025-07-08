@@ -190,3 +190,20 @@ output
 ├── radar_chart_en.png
 └── radar_chart_zh.png
 ```
+
+输出示例图：
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/53f80e2d-f519-4631-8ebd-993dae58b5c4" alt="radar_chart_en"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/e02fd98a-5ce5-4e4c-b8c2-0ff5a7e0b3ab" alt="radar_chart_zh"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">radar_chart_en.png</td>
+    <td align="center">radar_chart_zh.png</td>
+  </tr>
+</table>
+
