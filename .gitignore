@@ -16,3 +16,4 @@ output/
 pretrained_models/
 CosyVoice/
 TTS/
+seed-vc

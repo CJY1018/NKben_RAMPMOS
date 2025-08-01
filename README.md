@@ -1,7 +1,7 @@
-# Nkbench-eval: TTS运行及自动化评测工具集成
+# Nkbench-eval: TTS/VC运行及自动化评测工具集成
 
 
-## 🚀 运行方法
+## 🚀 TTS模块运行方法
 
 ### 第一部分：环境和模型准备
 
@@ -59,13 +59,15 @@ cd XTTS-v2
 
 wget https://huggingface.co/coqui/XTTS-v2/resolve/main/config.json
 wget https://huggingface.co/coqui/XTTS-v2/resolve/main/model.pth
+wget https://huggingface.co/coqui/XTTS-v2/resolve/main/vocab.json
 
 # 国内镜像
 # wget https://hf-mirror.com/coqui/XTTS-v2/resolve/main/model.pth
 # wget https://hf-mirror.com/coqui/XTTS-v2/resolve/main/config.json
+# wget https://hf-mirror.com/coqui/XTTS-v2/resolve/main/vocab.json
 ```
 
-#### 2.2 数据说明
+#### 2.2 数据准备和说明
 
 输入数据已包含在仓库的 `InputData/` 目录中：
 - `InputData/en/meta.csv`：英文待合成任务信息
@@ -73,7 +75,7 @@ wget https://huggingface.co/coqui/XTTS-v2/resolve/main/model.pth
 - `InputData/en/prompt-wavs`：英文参考音频
 - `InputData/zh/prompt-wavs`：中文参考音频
 
-格式说明：
+meta.csv格式说明：
 ```bash
 # 待合成音频文本|参考音频路径|参考音频文本
 infer_text|prompt_wav|prompt_text
@@ -85,11 +87,13 @@ infer_text|prompt_wav|prompt_text
 
 **CosyVoice2模型：**
 ```bash
+conda activate cosyvoice
 bash run_upstream.sh cosyvoice2
 ```
 
 **XTTS模型：**
 ```bash
+conda activate xtts
 bash run_upstream.sh xtts
 ```
 
@@ -216,5 +220,134 @@ output
         # 保存合成的音频到save_wav_path
         torchaudio.save(save_wav_path, wav, sample_rate)
         ```
-4. 将模型名称MODEL_NAME添加到run_upstream.sh，脚本将执行`python Upstream/run_$MODEL_NAME.py --lang "$LANG"`
-5. 运行`bash run_upstream.sh MODEL_NAME`启动上游TTS合成任务
+3. 将模型名称MODEL_NAME添加到run_upstream.sh，脚本将执行`python Upstream/run_$MODEL_NAME.py --lang "$LANG"`
+4. 运行`bash run_upstream.sh MODEL_NAME`启动上游TTS合成任务
+
+## 🚀 VC模块运行方法
+### 第一部分：上游运行（VC语音准换）
+#### 1.1 下载[seed-vc](https://github.com/Plachtaa/seed-vc)项目，放置在Upstream_VC目录下
+```bash
+cd Upstream_VC
+
+# Clone the repo
+git clone https://github.com/Plachtaa/seed-vc.git
+cd seed-vc
+
+# Create Conda env
+conda create -n seed-vc python=3.10
+conda activate seed-vc
+pip install -r requirements.txt
+```
+
+#### 1.2 数据准备和说明
+
+输入数据已包含在仓库的 `InputData_VC/` 目录中：
+- `InputData_VC/en/meta.csv`：英文待合成任务信息
+- `InputData_CV/zh/meta.csv`：中文待合成任务信息
+- `InputData_VC/en/source-wav`：英文原始音频
+- `InputData_VC/zh/source-wav`：中文原始音频
+- `InputData_VC/en/target-wav`: 英文目标音频
+- `InputData_VC/zh/target-wav`: 中文目标音频
+
+VC将把原始音频的音色转化为目标音频的音色
+
+meta.csv格式说明：
+```bash
+# 原始音频路径|目标音频路径
+source_wav|target_wav
+```
+
+#### 1.3 VC运行
+
+使用提供的脚本`run_upstream_vc.sh`一键运行VC语音转换:
+
+**seed-vc模型：**
+```bash
+conda activate seed-vc
+bash run_upstream_vc.sh seed-vc
+```
+**注：** 运行seed-vc推理时，模型会自动下载到Upstream_VC/seed-vc/checkpoints目录
+
+自定义example模型的过程见[第三部分](#第三部分自定义vc接入说明)
+
+**参数说明：**
+- 模型名称 (`seed-vc`或自定义`example`)
+- 若需要修改VC默认参数，请见：Upstream_VC/run_seed-vc.py中模型参数说明
+
+**输入结构：**
+```bash
+InputData_VC/
+├── en
+│   ├── meta.csv            # 待语音转换任务的元信息
+│   └── source-wavs         # 原始音频
+│   └── target-wavs         # 目标音频
+└── zh
+    ├── meta.csv            # 待语音转换任务的元信息
+    ├── source-wavs         # 原始音频
+    └── target-wavs         # 目标音频
+```
+
+**输出结构：**
+```bash
+InputData/
+├── en
+│   ├── meta.csv
+│   ├── meta_VCMODEL.csv   # VCMODEL语音转换音频的元信息
+│   ├── prompt-wavs
+│   └── wavs                # 语音转换的音频
+└── zh
+    ├── meta.csv
+    ├── meta_VCMODEL.csv   # VCMODEL语音转换音频的元信息
+    ├── prompt-wavs
+    └── wavs                # 语音转换的音频
+```
+
+meta_VCMODEL.csv 格式说明：
+```bash
+# 语音转换音频路径|原始音频路径|目标音频路径
+infer_wav|source_wav|target_wav
+
+# args参数说明见Upstream_VC/run_seed-vc.py
+语音转换音频（infer_wav）的命名方式为：vc_v2_原始音频名称_目标音频名称_{args.length_adjust}_{args.diffusion_steps}_{args.similarity_cfg_rate}.wav
+```
+
+### 第二部分：下游运行（指标计算）
+#### 2.1 配置环境
+和[TTS下游运行评估环境](#31-配置环境)相同，仅需激活环境：
+```bash
+conda activate eval
+```
+
+#### 2.2 综合评估
+相比于`TTS模型`输出结果wer、similarity和ramp三个维度的评估，`VC模型`输出结果仅对similarity和ramp两个维度进行评估
+
+使用提供的脚本`run_downstream_vc.sh`一键运行所有评估：
+
+**seed-vc模型：**
+```bash
+bash run_downstream_vc.sh seed-vc
+```
+
+#### 2.3 输出结果
+评估完成后，结果将输出在output文件夹中：
+```bash
+output
+├── ramp_VCMODEL_en.csv
+├── ramp_VCMODEL_zh.csv
+├── similarity_VCMODEL_en.csv
+└── similarity_VCMODEL_zh.csv
+```
+
+### 第三部分：自定义VC接入说明
+1. 模型准备：提供自定义VC代码，置于到Upstream_VC目录下。
+2. 参考`Upstream_VC/run_example.py`中的TODO，实现自定义的`Upstream_VC/run_MODEL_NAME.py`
+    - 关键接口如下
+        ```python
+        # 根据提供的原始音频路径（source_wav_path）、目标音频路径（target_wav_path）实现自定义VC的语音转换推理
+        wav = vc_inference(source_wav_path, target_wav_path)
+        
+        # 保存合成的音频到save_wav_path
+        torchaudio.save(save_wav_path, wav, sample_rate)
+        ```
+3. 将模型名称MODEL_NAME添加到run_upstream_vc.sh，脚本将执行`python Upstream_VC/run_$MODEL_NAME.py --lang "$LANG"`
+4. 运行`bash run_upstream_vc.sh MODEL_NAME`启动上游VC语音转换任务

@@ -7,8 +7,8 @@ from model.ramp import MosPredictor
 
 
 def predict_ramp(meta_df, checkpoint, datastore_path, device):
-    max_k = 400
-    topk = 1
+    max_k = 300
+    topk = 8
     SSL_OUT_DIM = 768
     cp_path = 'model_ckpt/wav2vec_small.pt'
     my_checkpoint = checkpoint
