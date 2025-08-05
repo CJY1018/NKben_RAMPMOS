@@ -1,14 +1,15 @@
 import os
+import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def get_metric_dict(output_dir):
+def get_metric_dict(output_dir, model_list):
     metric_dict = {}  # 字典结构: {模型名: {语言: {指标: 值}}}
 
     for file in os.listdir(output_dir):
-        if file.endswith('.csv'):
+        if file.endswith('.csv') and any([item in file for item in model_list]):
             file_path = os.path.join(output_dir, file)
             
             try:
@@ -121,10 +122,16 @@ def plot_radar_normalized(metric_dict, language):
 
 if __name__ == "__main__":
     output_dir = 'output'  # 输出目录
-    metric_dict = get_metric_dict(output_dir)
+    model_list = ["cosyvoice2", "xtts"]
+    metric_dict = get_metric_dict(output_dir, model_list)
     
     print("Metric Dictionary:", metric_dict)
     
+    # 保存metric_dict为JSON文件
+    metric_list = [{model: metric_dict[model]} for model in metric_dict ]
+    with open(os.path.join(output_dir, 'metric_tts.json'), 'w', encoding='utf-8') as f:
+        json.dump(metric_list, f, ensure_ascii=False, indent=4)
+
     languages = ['zh', 'en']
     
     # 分别绘制中文和英文的雷达图
