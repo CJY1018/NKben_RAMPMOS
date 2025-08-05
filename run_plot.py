@@ -122,7 +122,7 @@ def plot_radar_normalized(metric_dict, language):
 
 if __name__ == "__main__":
     output_dir = 'output'  # 输出目录
-    model_list = ["cosyvoice2", "xtts"]
+    model_list = ["cosyvoice2", "xtts"] # 定义需要计算的模型
     metric_dict = get_metric_dict(output_dir, model_list)
     
     print("Metric Dictionary:", metric_dict)

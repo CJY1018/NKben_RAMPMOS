@@ -181,13 +181,20 @@ output
 └── wer_TTSMODEL_zh.csv
 ```
 
-#### 3.4 绘制指标雷达图
+#### 3.4 保存平均结果到本地 & 绘制指标雷达图
+定义需要计算平均结果的模型
+```bash
+添加需要计算的模型名称到run_plot.py中的model_list
+```
+
+执行脚本
 ```bash
 python run_plot.py
 ```
 结果将输出在output文件夹中：
 ```bash
 output
+├── metric_tts.json
 ├── radar_chart_en.png
 └── radar_chart_zh.png
 ```
@@ -336,6 +343,22 @@ output
 ├── ramp_VCMODEL_zh.csv
 ├── similarity_VCMODEL_en.csv
 └── similarity_VCMODEL_zh.csv
+```
+
+#### 2.4 保存平均结果到本地
+定义需要计算平均结果的模型
+```bash
+添加需要计算的模型名称到run_result_vc.py中的model_list
+```
+
+执行脚本
+```bash
+python run_result_vc.py
+```
+结果将输出在output文件夹中：
+```bash
+output
+└── metric_vc.json
 ```
 
 ### 第三部分：自定义VC接入说明
