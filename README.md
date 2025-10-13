@@ -481,10 +481,10 @@ python run_result_vc.py
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/53f80e2d-f519-4631-8ebd-993dae58b5c4" alt="radar_chart_en"/>
+      <img src="https://github.com/user-attachments/assets/786b4b05-aefb-4166-bdf6-342118cfc49e" alt="radar_chart_en"/>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/e02fd98a-5ce5-4e4c-b8c2-0ff5a7e0b3ab" alt="radar_chart_zh"/>
+      <img src="https://github.com/user-attachments/assets/9cda96f2-be57-4095-8d32-b014d3f5cbc8" alt="radar_chart_zh"/>
     </td>
   </tr>
   <tr>
