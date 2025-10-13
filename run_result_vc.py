@@ -34,6 +34,18 @@ def get_metric_dict(output_dir, model_list):
                     avg_ramp = df['ramp_mos'].mean() # 宏平均 (Macro-average)
                     avg_ramp = round(avg_ramp, 3)
                     metric_dict[model_name][lang]['ramp'] = avg_ramp
+                elif metric == 'sslmos':
+                    avg_ramp = df['sslmos'].mean()
+                    avg_ramp = round(avg_ramp, 3)
+                    metric_dict[model_name][lang]['sslmos'] = avg_ramp
+                elif metric == 'audiobox':
+                    avg_ramp = df['audiobox'].mean()
+                    avg_ramp = round(avg_ramp, 3)
+                    metric_dict[model_name][lang]['audiobox'] = avg_ramp
+                elif metric == 'utmos':
+                    avg_ramp = df['utmos'].mean()
+                    avg_ramp = round(avg_ramp, 3)
+                    metric_dict[model_name][lang]['utmos'] = avg_ramp
                     
             except Exception as e:
                 print(f"处理文件 {file} 时出错: {str(e)}")

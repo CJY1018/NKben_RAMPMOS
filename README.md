@@ -374,3 +374,121 @@ output
         ```
 3. 将模型名称MODEL_NAME添加到run_upstream_vc.sh，脚本将执行`python Upstream_VC/run_$MODEL_NAME.py --lang "$LANG"`
 4. 运行`bash run_upstream_vc.sh MODEL_NAME`启动上游VC语音转换任务
+
+## 🚀 更新：支持更多的MOS
+除RAMP外，我们还集成了更多的MOS评测方法：[mos-finetune-ssl](https://github.com/nii-yamagishilab/mos-finetune-ssl)、[audiobox-aesthetics](https://github.com/facebookresearch/audiobox-aesthetics)和[UTMOS](https://github.com/sarulab-speech/UTMOS22)。
+
+### 第一部分：环境准备
+由于这3个MOS所需的环境与现有环境都有冲突，建议都新建一个环境进行安装
+#### 1.1 [mos-finetune-ssl](https://github.com/nii-yamagishilab/mos-finetune-ssl)安装
+```bash
+# 在根目录创建MOS文件夹，以下3个MOS项目都放在该文件夹下
+mkdir MOS && cd MOS
+git clone https://github.com/nii-yamagishilab/mos-finetune-ssl.git
+
+cd mos-finetune-ssl
+conda env create -f environment.yml -n mos
+
+# 注意：如果安装过程中报错，可能是两个原因：
+# 1、 项目比较老，cuda版本使用11.1，如果您的机器cuda版本较新，可以先移除pytorch=1.9.0=py3.7_cuda11.1_cudnn8.0.5_0、cudatoolkit=11.1.1=h6406543_8、torchvision=0.10.0=py37_cu111、torchaudio==0.9.0，先安装其他的依赖，最后再单独安装pytorch和torchvision和torchaudio。或者参考根目录下的environment_mos.yml安装，使用cuda 11.7版本，实测在cuda 12下也可以运行
+# 2、 pip的版本过高，我使用的是pip 21.1.2，使用pip install pip==21.1.2切换
+
+# 配置fairseq，使用旧版本fairseq 0.10.2 (https://github.com/facebookresearch/fairseq/archive/refs/tags/v0.10.2.zip)
+
+wget https://github.com/facebookresearch/fairseq/archive/refs/tags/v0.10.2.zip
+unzip fairseq-0.10.2.zip # 确保解压到 MOS/mos-finetune-ssl/fairseq-0.10.2
+
+# 下载模型：运行MOS/mos-finetune-ssl/run_inference.py
+python run_inference.py
+```
+
+#### 1.2 [audiobox-aesthetics](https://github.com/facebookresearch/audiobox-aesthetics)安装
+```bash
+conda create -n audiobox python=3.10
+conda activate audiobox
+pip install audiobox_aesthetics
+
+# 下载模型
+# 首次运行会自动下载模型，下载的代码在MOS/audiobox-aesthetics/src/audiobox_aesthetics/utils.py，加载的代码在MOS/audiobox-aesthetics/src/audiobox_aesthetics/infer.py的134行，可自行修改为本地加载
+```
+
+#### 1.3 [UTMOS](https://github.com/sarulab-speech/UTMOS22)安装
+```bash
+git clone https://huggingface.co/spaces/sarulab-speech/UTMOS-demo
+cd UTMOS-demo
+
+conda create -n UTMOS python=3.8
+pip install -r requirements.txt
+```
+
+### 第二部分：MOS评测运行
+#### 2.1 数据准备
+和[TTS下游运行评估数据](#32-综合评估)相同，使用`InputData/en/`和`InputData/zh/`下的meta_TTSMODEL.csv和wavs文件夹
+
+#### 2.2 综合评估
+3个新加入的MOS评测均已无缝集成在`run_downstream.sh`脚本中，和之前的使用方式不变：
+
+评估TTS模型的所有MOS指标：
+```bash
+bash run_downstream.sh cosyvoice2
+bash run_downstream.sh xtts
+```
+
+评估VC模型的所有MOS指标：
+```bash
+bash run_downstream_vc.sh seed-vc
+```
+
+#### 2.3 输出结果
+评估完成后，结果将输出在output文件夹中
+
+TTS模型的输出结果：
+```bash
+output
+├── sslmos_TTSMODEL_en.csv
+├── ssltmos_TTSMODEL_zh.csv
+├── audiobox_TTSMODEL_en.csv
+├── audiobox_TTSMODEL_zh.csv
+├── utmos_TTSMODEL_en.csv
+└── utmos_TTSMODEL_zh.csv
+```
+
+VC模型的输出结果：
+```bash
+output
+├── sslmos_VCMODEL_en.csv
+├── sslmos_VCMODEL_zh.csv
+├── audiobox_VCMODEL_en.csv
+├── audiobox_VCMODEL_zh.csv
+├── utmos_VCMODEL_en.csv
+└── utmos_VCMODEL_zh.csv
+```
+
+#### 2.4 保存平均结果到本地 & 绘制指标雷达图
+和[TTS/VC下游运行评估](#34-保存平均结果到本地--绘制指标雷达图)相同，直接运行`python run_plot.py`或`python run_result_vc.py`即可，结果将输出在output文件夹中：
+
+TTS模型输出平均结果和雷达图：
+```bash
+python run_plot.py
+```
+
+VC模型输出平均结果：
+```bash
+python run_result_vc.py
+```
+
+新的输出示例图：
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/53f80e2d-f519-4631-8ebd-993dae58b5c4" alt="radar_chart_en"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/e02fd98a-5ce5-4e4c-b8c2-0ff5a7e0b3ab" alt="radar_chart_zh"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">radar_chart_en.png</td>
+    <td align="center">radar_chart_zh.png</td>
+  </tr>
+</table>

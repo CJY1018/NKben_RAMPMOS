@@ -3,7 +3,7 @@ import argparse
 
 from process_meta_csv_vc import prepare_wav_res_ref_text, save_meta_csv
 from thirdparty.UniSpeech.downstreams.speaker_verification.verification_pair_list_v3_vc import predict_sim
-from predict_ramp2 import predict_ramp
+from predict_ramp_VC2 import predict_ramp
 
 
 if __name__ == "__main__":
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     parser.add_argument('--meta_csv', type=str, required=True, help='Path to the meta CSV file')
     parser.add_argument('--lang', type=str, choices=['en', 'zh'], required=True, help='Language of the text (en or zh)')
     parser.add_argument('--sim_checkpoint_path', type=str, default='wavlm_large_finetune.pth', help='Path to the sim model checkpoint')
-    parser.add_argument('--ramp_checkpoint_path', type=str, default='model_ckpt/ramp_ckpt', help='Path to the RAMP model checkpoint')
+    parser.add_argument('--ramp_checkpoint_path', type=str, default='model_ckpt/ramp_ckpt_vc', help='Path to the RAMP model checkpoint')
     parser.add_argument('--datastore_path', type=str, default='datastore_profile', help='Path to the datastore for RAMP')
     args = parser.parse_args()
 

@@ -41,6 +41,18 @@ def get_metric_dict(output_dir, model_list):
                     avg_ramp = df['ramp_mos'].mean() # 宏平均 (Macro-average)
                     avg_ramp = round(avg_ramp, 3)
                     metric_dict[model_name][lang]['ramp'] = avg_ramp
+                elif metric == 'sslmos':
+                    avg_ramp = df['sslmos'].mean()
+                    avg_ramp = round(avg_ramp, 3)
+                    metric_dict[model_name][lang]['sslmos'] = avg_ramp
+                elif metric == 'audiobox':
+                    avg_ramp = df['audiobox'].mean()
+                    avg_ramp = round(avg_ramp, 3)
+                    metric_dict[model_name][lang]['audiobox'] = avg_ramp
+                elif metric == 'utmos':
+                    avg_ramp = df['utmos'].mean()
+                    avg_ramp = round(avg_ramp, 3)
+                    metric_dict[model_name][lang]['utmos'] = avg_ramp
                     
             except Exception as e:
                 print(f"处理文件 {file} 时出错: {str(e)}")
@@ -49,7 +61,7 @@ def get_metric_dict(output_dir, model_list):
 
 # 绘制雷达图函数，包含归一化和半透明填充
 def plot_radar_normalized(metric_dict, language):
-    metrics = ['wer', 'ramp', 'similarity']
+    metrics = ['wer', 'similarity', 'ramp', 'sslmos', 'audiobox', 'utmos']
     models = list(metric_dict.keys())
     colors = ['#ffaf00', '#f46920']
     
@@ -90,7 +102,7 @@ def plot_radar_normalized(metric_dict, language):
         label_values = [f"{max_val * r:.3f}" for r in label_radii]
         
         # 添加标签（稍微偏移以避免重叠）
-        offset = 0.05  # 径向偏移量
+        offset = 0.03  # 径向偏移量
         for j, (r, value) in enumerate(zip(label_radii, label_values)):
             # 计算标签的实际位置（径向稍微向外偏移）
             label_r = r + offset
@@ -101,7 +113,7 @@ def plot_radar_normalized(metric_dict, language):
                         ha='center', va='center', fontsize=8, color='dimgray')
             else:
                 # 最后一个标签在轴上
-                ax.text(label_angles[j], label_r + 0.05, value, 
+                ax.text(label_angles[j], label_r + 0.03, value, 
                         ha='center', va='center', fontsize=8, color='black', fontweight='bold')
     
     # 设置指标轴标签

@@ -20,10 +20,44 @@ fi
 export CUDA_VISIBLE_DEVICES=0
 export HF_ENDPOINT=https://hf-mirror.com
 
+# 执行wer/sim/ramp评估
 for LANG in "${LANGUAGES[@]}"; do
   echo "正在评估 $MODEL_NAME 模型（$LANG）..."
   python run_all.py --meta_csv "InputData/${LANG}/meta_$MODEL_NAME.csv" --lang "$LANG"
 done
+
+# 执行新的mos评估
+CONDA_BASE=$(conda info --base)
+source "$CONDA_BASE/etc/profile.d/conda.sh"
+
+# sslmos
+conda activate mos
+
+# 运行前需要下载fairseq 0.10.2环境，下载https://github.com/facebookresearch/fairseq/archive/refs/tags/v0.10.2.zip，解压到MOS/mos-finetune-ssl
+for LANG in "${LANGUAGES[@]}"; do
+  echo "正在评估 $MODEL_NAME 模型（$LANG）..."
+  python run_all_sslmos.py --meta_csv "InputData/${LANG}/meta_$MODEL_NAME.csv" --lang "$LANG"
+done
+
+# audiobox
+conda activate audiobox
+
+for LANG in "${LANGUAGES[@]}"; do
+  echo "正在评估 $MODEL_NAME 模型（$LANG）..."
+  python run_all_audiobox.py --meta_csv "InputData/${LANG}/meta_$MODEL_NAME.csv" --lang "$LANG"
+done
+
+# utmos
+conda activate UTMOS
+
+ln -s MOS/UTMOS-demo/wav2vec_small.pt ./wav2vec_small.pt
+
+for LANG in "${LANGUAGES[@]}"; do
+  echo "正在评估 $MODEL_NAME 模型（$LANG）..."
+  python run_all_utmos.py --meta_csv "InputData/${LANG}/meta_$MODEL_NAME.csv" --lang "$LANG"
+done
+
+rm -f ./wav2vec_small.pt
 
 # conda activate eval
 # bash run_downstream.sh xtts

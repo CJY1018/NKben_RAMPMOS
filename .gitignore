@@ -17,3 +17,5 @@ pretrained_models/
 CosyVoice/
 TTS/
 seed-vc
+wavs
+meta_*.csv
