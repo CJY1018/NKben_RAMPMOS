@@ -1,0 +1,102 @@
+id	text
+P001	A lively, short summer piano solo piece, ideal for indoor performance, contains cheerful melodies that capture the season's essence.
+P002	The song features a joyful three-part children’s choral arrangement with percussion accompaniment, perfect for chamber music.
+P003	This piece contains a mysterious, medium-tempo solo violin performance, ideal for a concert setting.
+P004	Romantic classical music features piano and violin, offering a beautiful experience perfect for travel.
+P005	The orchestral performance contains multi-voiced polyphonic music with beautiful melodies, suited for an elegant indoor setting.
+P006	This Baroque chamber ensemble features a blend of mysterious instruments like violin, viola, and cello, suited for an intimate performance.
+P007	The music contains a solemn, mysterious mass segment, ideal for performance in a church.
+P008	A grand, slow-paced Gregorian chant features a majestic style, perfect for a solemn church setting.
+P009	The song features a cello solo with a mysterious, religious style, accompanied by percussion, and performed in a concert.
+P010	This string quartet contains a beautiful melodious style, with the violin providing accompaniment and the viola carrying the main melody.
+P011	The music contains a modern piano piece by Jacob, featuring smooth, melodious tones with clear high and low notes, performed in a church.
+P012	A tranquil nocturne for piano features a serene atmosphere, suitable for nighttime listening, possibly with violin and viola accompaniment.
+P013	The song features a lively melody for oboe and clarinet, with the clarinet leading and the oboe providing accompaniment, performed at a concert.
+P014	A solo harp piece contains flowing and serene qualities, ideal for film scoring.
+P015	The music features a quiet, deep-toned cello segment, perfect for peaceful nighttime listening.
+P016	This audio contains someone playing a classical melody on an acoustic guitar. This audio is full of reverb. This song may be playing at a talent show.
+P017	The song is an instrumental. The song is medium tempo with a sitar playing solo, tabla playing percussively and other Indian percussion instruments. The song is emotional and poignant. The audio quality is very ordinary.
+P018	This instrumental song features a run played on a piano followed by an ascending progression on the French horn. The horn plays descending notes and the piano repeats the same melody using arpeggiated chords. This is followed by two ascending notes on the horn. There are no other instruments in this song. This song has a relaxing feel. This song can be played in a bar.
+P019	This is a classical music piece belonging to the baroque period. The piece is being performed with a harp. There is a catchy tune being played with a positive aura. This piece could suit well as wedding music. It could be used in the soundtrack of a documentary. It could also be playing in the background of a classy restaurant or a museum.
+P020	The song is an instrumental. The song is slow tempo with a Chinese string instrument playing a lilting melody along with tones of the string instrument being plucked like a harp. The song is emotional and melancholic. The song is a live performance with ambient room noise and generally poor audio quality.
+P021	The low quality recording features a live performance of a classical song and it contains trombone melody playing over shimmering hi hats and sustained strings. It sounds muffled, but also passionate and emotional.
+P022	This is a classical music piece performed by a trio of the violin, the cello and the piano. The melody being played is a gentle one and there is a feeling of resolution in this section of the piece. This piece could be used in the soundtrack of a drama TV series during the closing scenes.
+P023	This is a classical orchestral piece. The piece gives off the feeling of intensity and excitement. It would be used in  any scene that is thrilling and suspenseful. We hear french horns, violins and tubas. The violins are used to create a hurried moment of tension before descending back to the main motif on the brass instruments.
+P024	This classical song features the main melody played on a harpsichord. The mood of this song is happy. This song does not have any percussion or any other instruments. There are no voices in this song. This song can be played for aristocracy.
+P025	This music is instrumental. The tempo is medium with a lilting middle eastern kind of melody on a string instrument that sounds like a santoor along with a classical tabla accompaniment. The music is traditional, classical, captivating, romantic and nostalgic. This music is an Eastern Classical instrumental.
+P026	This vibrant children's percussion ensemble features tambourines, sleigh bells, and castanets. The song is performed with a playful and lively mood, ideal for youthful audiences.
+P027	This serene string quartet piece features the cello as the primary instrument, with the violin and viola providing rich, deep accompaniment. The song is performed with a calm and introspective mood, suitable for refined concert settings.
+P028	This classical music excerpt features a slow and tranquil orchestral arrangement, enhanced with Romantic-style wind instruments. The song is performed to evoke a serene and elegant atmosphere.
+P029	This evening music piece features a slow accordion solo with deep, resonant tones. The song is performed to create a reflective and calming ambiance, perfect for nighttime listening.
+P030	This cheerful wind ensemble piece features bright rhythms and tight notes, with a focus on the middle register of the instruments. The song is performed with a joyful and engaging spirit, ideal for young audiences.
+P031	This soothing piano solo serves as a backdrop for recitations, featuring a major key that brings clarity and brightness to the melody. The song is performed with a calming and uplifting quality.
+P032	This energetic symphonic piece features vibrant rhythms from the violin and wind instruments. The song is performed with a dynamic and invigorating style, making it perfect for lively events.
+P033	This elegant chamber orchestra piece features refined classical elements, adding a touch of sophistication to any performance. The song is performed with a noble and polished character.
+P034	This simple and upbeat saxophone piece features smooth, consistent playing with minimal pitch variation. The song is performed with a light and airy feel, perfect for easy listening.
+P035	This whimsical flute solo features a blend of fast and slow tempos, often used in comedic films. The song is performed with a quirky and entertaining flair.
+P036	This chord-based cantata excerpt features a steady rhythm with minimal tempo changes. The song is performed with a focus on structural simplicity and clarity.
+P037	This passionate pipa solo features intense emotions infused by the performer, reflecting the themes of horse-racing. The song is performed with a rich and evocative style, enhancing its emotional depth.
+P038	This lively bamboo flute piece features intricate rhythms with a focus on sixteenth-note passages. The song is performed with dynamic and vibrant energy.
+P039	This art song features beautiful melodies with varying vocal pitch. The song is performed to highlight its melodic charm and expressive qualities.
+P040	This sorrowful erhu piece features slow, emotive long notes that showcase the instrument's ability to convey deep sadness. The song is performed with a poignant and heartfelt style.
+P041	This Mongolian long tune in the Chinese pentatonic scale features a wide range and slow rhythm with minimal note changes. The song is performed with a steady and contemplative pace.
+P042	This electronic music piece features a Xinjiang dance style with prominent sixteenth notes and syncopated rhythms. The song is performed with a rhythmic and energetic drive.
+P043	This Korean long drum dance music piece features vibrant and expressive arrangements, perfectly integrating the drum with the dance. The song is performed with a distinctive drum-focused style.
+P044	This slow Japanese minor scale piece features traditional Japanese instruments. The song is performed to evoke a serene and culturally rich atmosphere, ideal for evening listening.
+P045	This melodious ocarina solo features a soothing background, often accompanied by other instruments. The song is performed with a harmonious and tranquil quality.
+P046	This calming violin concerto features gentle, expressive notes and is used as film background music. The song is performed with a serene and atmospheric quality.
+P047	This Impressionist-style classical music excerpt features a minor key and utilizes both trumpet and trombone. The song is performed with the trombone emphasizing the lower range and the trumpet highlighting the higher range.
+P048	This Baroque-period polyphonic music piece features multiple voices performed on the piano. The song is performed with a clear, intricate texture, suitable for classical concerts.
+P049	This piano sonata-style music piece features four-part harmonies, with clear differentiation between high, middle, and low voices. The song is performed with precise harmonic clarity.
+P050	This light and cheerful art song features simple melodies with violin and piano accompaniment. The song is performed with female vocals and a joyful, engaging style.
+P051	This summer-themed a cappella choral piece features well-balanced harmonies and seamless integration of high and low voices. The song is performed with a bright and harmonious quality.
+P052	This adventurous and energetic music piece features strong rhythms and optional drum beats. The song is performed with a dynamic range and expansive energy, suitable for thrilling environments.
+P053	This Chinese pentatonic choral piece features unique national musical characteristics and varied singing styles. The song is performed with a strong ethnic flavor, ideal for live performances.
+P054	This lively pop music piece features violin and drum beats, with an expansive violin range and fast rhythms. The song is performed as vibrant background music for games.
+P055	This pop song features rich piano chord accompaniment and includes electronic instruments. The song is performed with a diverse and vibrant soundscape.
+P056	This soothing guitar melody features Southeast Asian influences and is performed with a wooden guitar as the main instrument. The song is designed to evoke a relaxed and calming mood.
+P057	This Chinese pop music piece features bamboo flute elements with bright and fresh tones. The song is performed with tight rhythms and an energetic feel.
+P058	This modern pop music piece features orchestral instruments with deep wind sounds and clear high notes from the strings. The song is performed with a contemporary and dynamic style.
+P059	This energetic percussion performance features rock influences and is ideal for concert openings. The song is performed with powerful beats and high-energy style.
+P060	This tranquil pop music piece features flowing piano and violin accompaniment. The song is performed with a calming effect, creating a serene concert atmosphere.
+P061	This fast-paced, free-tempo background music features dense, rhythmic beats, making it ideal for gaming.
+P062	A lively tango song contains strong rhythmic emphasis, with pronounced syncopation that highlights the dance's signature style, perfect for ballroom dancing.
+P063	The male and female vocals take turns singing melodically as a duet. The simple melody is being played by a ukulele. The aura of the song is very calm and easygoing. The music could be playing in the background at a coffee house.
+P064	This music piece contains the bass as the primary instrument, delivering a strong metallic sound suitable for bar settings.
+P065	This joyful song features simple bass accompaniment and vocal backing, performed with a free tempo, making it ideal for live concerts.
+P066	The recording features a pop song that consists of an echoing male vocal singing over snare hits,, metallic percussions, synth lead melody and synth pad chords. It sounds energetic, nostalgic and exciting - like something you would hear in clubs during the 80s.
+P067	This is a teen pop music piece. There is a teen female vocalist singing melodically. The main tune is being played by the acoustic guitar. There is a bass guitar playing in the background.  The piece has an easygoing atmosphere. This piece could be an opening theme for a teenage drama movie/TV show. 
+P068	A soft, romantic Brazilian music piece features a strong regional flavor with instruments like drums and guitar.
+P069	This mysterious, non-melodic chordal music contains no instrumental accompaniment, relying solely on piano chords to connect the music.
+P070	This is a finnish techno pop piece with polka influences. There is a female vocalist in the lead singing rapidly in a manner that resembles yodeling. A male vocalist occasionally joins her at a lower pitch while singing the melody. The melodic background consists of a keyboard tune and a simple bass line. The atmosphere is playful and danceable. This piece could be used in the background of a comedic social media content. 
+P071	This warm and romantic folk-style song creates a cozy atmosphere, ideal for playing in the car.
+P072	A somber and melancholic pop piece features deep male and female vocal harmonies, suitable for upscale dining environments.
+P073	The song features a flat female vocal, supported by wide harmonizing background vocals, singing over groovy acoustic rhythm guitar, offbeat shimmering open hats, claps, offbeat synth keys chords and a simple 4 on the floor kick pattern that perfectly complements the groovy bass. Sounds uptempo, like something you would hear in clubs, or on a radio.
+P074	This is a pop music piece. The words are being sung by two vocals: one male and one female which lead to a duet for the chorus. There is a banjo and an electric guitar playing the melody while a simple electronic drum beat provides the rhythmic background for the song. It is a slightly melodic and emotional song. This piece could be used in the soundtrack of a romantic drama during a flashback scene.
+P075	This is an Indian pop music piece. The female vocalist is singing in a heart-touching manner. The electric guitar is playing a gentle melody. The bass guitar is the melodic background. The electronic drums and the electronic percussion provide a mid tempo rhythmic background. The overall atmosphere of the piece is sentimental. It could be used in the soundtrack of a Bollywood drama.
+P076	A complex electronic composition contains diverse chords and synthesizes electronic effects with wind, string, and percussion instruments, often used in gaming.
+P077	This steady, story-driven bar music piece features electronic piano as the lead, with guitar and bass accompaniment.
+P078	This is a children's song accompanied by a tuba playing the low registers and followed by a phrase played on a trumpet and a descend run played on bells. The children's voice repeats the first melody once again. In between the sound of church bells is played. This song has a holiday feel. This song can be played in the intro credits of a holiday movie.
+P079	The Pop song features a passionate female vocal singing over groovy bass, wide electric guitar melodies and shimmering shakers, as the overall audio is slowly fading out. 
+P080	A unique blend of Chinese and Western music contains traditional instruments like the guzheng and pipa alongside the oud and shamisen, creating a rich cultural fusion.
+P081	This lively syncopated rhythm tune features electronic drums and is perfect for enjoying during travel.
+P082	A beautiful solo song features soaring, high-register female vocals, making it perfect for concert performances.
+P083	This fast-paced, energetic pop track features electronic beats integrated with a rhythmic male hum, creating a vibrant atmosphere.
+P084	A fusion of classical and modern music features symphonic excerpts performed with electronic instrumentation, with bass guitar leading the melody.
+P085	This a cappella piece contains a waltz rhythm, with male vocals delivering the main melody and low harmonies, while female vocals handle the high notes.
+P086	A magical and fantastical electronic music composition features a fusion of instruments like violin, guitar, and bass, creating an immersive background for gaming.
+P087	This Southeast Asian-inspired music piece contains a string quartet, with the cello leading the melody and violin and viola providing accompaniment, perfect for indoor performances.
+P088	A powerful electronic composition features a steady rhythm and is paired with live piano for a grand concert opening.
+P089	This lively swing dance music features a Russian folk style, with a joyful rhythm and narrow tonal range, perfect for ballroom dancing.
+P090	A modern pop song contains orchestral accompaniment, with the violin as the lead instrument, supported by other strings and wind instruments.
+P091	This cheerful children's song features a steady rhythm and small vocal range, performed with a lighthearted tone, perfect for choral competitions.
+P092	A romantic waltz rhythm tune features electronic organ accompaniment, making it ideal for celebratory events.
+P093	This small vocal ensemble piece features integrated accompaniment and vocal harmonies, often heard during travel.
+P094	A pop song contains the guzheng in the interlude, delivering a flowing, high-mountain style melody that blends traditional and modern elements.
+P095	This fresh and simple campus folk-style tune features male vocals accompanied by guitar, often heard in relaxed campus settings.
+P096	A somber Chinese pentatonic melody features a fusion of traditional instruments like the guzheng, pipa, and erhu, suitable for celebratory events.
+P097	This is a pop music piece performed acoustically. The male and female vocals take turns singing melodically as a duet. The melody is being played by a ukulele. The aura of the song is very calm and easygoing. It could be used in the soundtrack of a teenage drama. The music could be playing in the background at a coffee house.
+P098	A tap dance music piece features a distinct tap shoe sound, with fast-paced, tight rhythms, perfect for ballroom dancing.
+P099	This a cappella piece contains double bass accompaniment, with male vocals delivering the main melody, suitable for studio recording.
+P100	A nocturne in a minor key features Impressionist influences, blending popular song elements with a piano-accompanied minor key, performed by female vocals.
+	
