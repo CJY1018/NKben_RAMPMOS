@@ -9,6 +9,8 @@ import torch.nn as nn
 class Datastore(nn.Module):
     def __init__(self, ckptdir, max_k):
         super(Datastore, self).__init__()
+        ckptdir = os.path.abspath(ckptdir)
+        print(f"Loading datastore from {ckptdir}")
         with open(os.path.join(ckptdir, 'emb_array.pkl'), 'rb') as file:
             self.X_train = pickle.load(file)
         with open(os.path.join(ckptdir, 'label_array.pkl'), 'rb') as file:

@@ -53,6 +53,10 @@ def get_metric_dict(output_dir, model_list):
                     avg_ramp = df['utmos'].mean()
                     avg_ramp = round(avg_ramp, 3)
                     metric_dict[model_name][lang]['utmos'] = avg_ramp
+                elif metric == 'gtmos':
+                    avg_ramp = df['gt_mos'].mean() # 宏平均 (Macro-average)
+                    avg_ramp = round(avg_ramp, 3)
+                    metric_dict[model_name][lang]['gt_mos'] = avg_ramp
                     
             except Exception as e:
                 print(f"处理文件 {file} 时出错: {str(e)}")
@@ -66,9 +70,37 @@ def plot_radar_normalized(metric_dict, language):
     colors = ['#ffaf00', '#f46920']
     
     # 提取数据
-    data = {model: [metric_dict[model][language][m] for m in metrics] for model in models}
-    # 计算每个指标的最大值
-    max_vals = np.max([vals for vals in data.values()], axis=0)
+    data = {model: [metric_dict[model][language].get(m, np.nan) for m in metrics] for model in models}
+
+    # 如果存在GT（每个模型的gt分数），则提取GT用于在特定指标上绘制红色虚线
+    # GT 只用于 ramp/sslmos/audiobox/utmos 四个指标的位置
+    gt_indices = [metrics.index(x) for x in ['ramp', 'sslmos', 'audiobox', 'utmos']]
+    gt_vals_by_model = {}
+    for model in models:
+        gt_val = metric_dict[model][language].get('gt_mos', None) if language in metric_dict[model] else None
+        # 如果没有gt，设置为None
+        gt_vals_by_model[model] = gt_val
+
+    # 计算每个指标的最大值（归一化基准），同时把GT值考虑在内以保证GT线可见
+    stacked = []
+    for model in models:
+        vals = np.array([v if (v is not None and not (isinstance(v, float) and np.isnan(v))) else 0.0 for v in data[model]])
+        stacked.append(vals)
+        # 将gt放到对应指标位置（如果存在）以纳入最大值计算
+        gt_val = gt_vals_by_model.get(model)
+        if gt_val is not None:
+            gt_arr = np.zeros(len(metrics))
+            for idx in gt_indices:
+                # audiobox 的 GT 是双倍尺度（数据表上定义），因此在 audiobox 索引上使用 gt_val*2
+                if metrics[idx] == 'audiobox':
+                    gt_arr[idx] = gt_val * 2
+                else:
+                    gt_arr[idx] = gt_val
+            stacked.append(gt_arr)
+
+    max_vals = np.max(np.vstack(stacked), axis=0)
+    # 避免除以0
+    max_vals[max_vals == 0] = 1.0
     
     # 角度分布
     N = len(metrics)
@@ -80,13 +112,70 @@ def plot_radar_normalized(metric_dict, language):
     
     for i, (model, vals) in enumerate(data.items()):
         # 归一化
-        norm_vals = np.array(vals) / max_vals
+        vals_arr = np.array([v if (v is not None and not (isinstance(v, float) and np.isnan(v))) else 0.0 for v in vals])
+        norm_vals = vals_arr / max_vals
         norm_vals = norm_vals.tolist()
         norm_vals += norm_vals[:1]
         
         # 绘制曲线并填充面积
         ax.plot(angles, norm_vals, marker='o', label=model, color=colors[i])
         ax.fill(angles, norm_vals, alpha=0.25, color=colors[i])
+
+    # 绘制GT红色虚线（仅在ramp/sslmos/audiobox/utmos处有值）
+    # 我们用每个模型的GT值绘制一条相同样式的线（红色虚线），若不同模型有不同GT也都绘制
+    for i, model in enumerate(models):
+        gt_val = gt_vals_by_model.get(model)
+        if gt_val is None:
+            continue
+        # 构造GT在所有指标上的值（只有指定指标有gt，其他为0）
+        gt_full = np.zeros(len(metrics))
+        for idx in gt_indices:
+            # audiobox 的 GT 使用两倍
+            if metrics[idx] == 'audiobox':
+                gt_full[idx] = gt_val * 2
+            else:
+                gt_full[idx] = gt_val
+        # 归一化
+        gt_norm = gt_full / max_vals
+
+        # 为避免从一个非零点连接到另一个非零点穿过0（尤其是当某些指标为0/NaN时），
+        # 我们按连续非零区间分段绘制GT线，支持环绕（wrap-around）
+        nonzero = np.where(gt_norm != 0)[0].tolist()
+        if not nonzero:
+            continue
+
+        # helper: 获取连续区间（考虑环绕）
+        segments = []
+        start = nonzero[0]
+        prev = nonzero[0]
+        for idx in nonzero[1:]:
+            if idx == prev + 1:
+                prev = idx
+                continue
+            else:
+                segments.append((start, prev))
+                start = idx
+                prev = idx
+        segments.append((start, prev))
+
+        # 处理环绕：若首尾相连则合并
+        if len(segments) > 1 and segments[0][0] == 0 and segments[-1][1] == len(metrics) - 1:
+            segments[0] = (segments[-1][0], segments[0][1])
+            segments.pop()
+
+        # 绘制每个段。对于每个段，我们需要构造角度和对应的值，注意不能闭合（不添加重复点）
+        for (s, e) in segments:
+            if s <= e:
+                seg_idxs = list(range(s, e + 1))
+            else:
+                # 环绕段例如从 4 到 1（不常见，因为我们已合并首尾），构造跨边索引
+                seg_idxs = list(range(s, len(metrics))) + list(range(0, e + 1))
+
+            seg_angles = [angles[idx] for idx in seg_idxs]
+            seg_vals = [float(gt_norm[idx]) for idx in seg_idxs]
+
+            # 绘制分段虚线
+            ax.plot(seg_angles, seg_vals, linestyle='--', color=colors[i], label=f'GT ({model})' if s == segments[0][0] else None, linewidth=2)
     
     # 设置径向网格线
     ax.set_rgrids([0.2, 0.4, 0.6, 0.8, 1.0])

@@ -19,3 +19,9 @@ TTS/
 seed-vc
 wavs
 meta_*.csv
+/InputData_new
+/check.py
+/gt*.csv
+/output_old
+split_gt.py
+to_label.py

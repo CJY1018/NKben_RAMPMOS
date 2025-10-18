@@ -46,6 +46,10 @@ def get_metric_dict(output_dir, model_list):
                     avg_ramp = df['utmos'].mean()
                     avg_ramp = round(avg_ramp, 3)
                     metric_dict[model_name][lang]['utmos'] = avg_ramp
+                elif metric == 'gtmos':
+                    avg_mos = df['gt_mos'].mean() # 宏平均 (Macro-average)
+                    avg_mos = round(avg_mos, 3)  # 保留三位小数
+                    metric_dict[model_name][lang]['gt_mos'] = avg_mos
                     
             except Exception as e:
                 print(f"处理文件 {file} 时出错: {str(e)}")

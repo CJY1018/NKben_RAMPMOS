@@ -5,7 +5,7 @@ from model.fusingnet import FusingNet
 
 
 class MosPredictor(nn.Module):
-    def __init__(self, ssl_model, ssl_out_dim, max_k=400, emb_data_path='datasore_profile', topk=1):
+    def __init__(self, ssl_model, ssl_out_dim, max_k=400, emb_data_path='datastore_profile', topk=1):
         super(MosPredictor, self).__init__()
         self.ssl_model = ssl_model
         self.ssl_features = ssl_out_dim

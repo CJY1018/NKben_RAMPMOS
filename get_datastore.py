@@ -81,3 +81,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
+# python get_datastore.py --datadir datastore_profile/label.txt --checkpoint model_ckpt/ramp_ckpt --datastore_path datastore_profile
