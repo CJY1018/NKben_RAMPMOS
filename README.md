@@ -562,10 +562,10 @@ python run_compute_mos_mse.py
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/786b4b05-aefb-4166-bdf6-342118cfc49e" alt="radar_chart_en"/>
+      <img src="https://github.com/user-attachments/assets/0187edb5-09c8-4921-8b41-060d850b929c" alt="radar_chart_en"/>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/9cda96f2-be57-4095-8d32-b014d3f5cbc8" alt="radar_chart_zh"/>
+      <img src="https://github.com/user-attachments/assets/a178eda7-f5c0-4bbd-b674-1eb201fd90e4" alt="radar_chart_zh"/>
     </td>
   </tr>
   <tr>
