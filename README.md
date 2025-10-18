@@ -536,6 +536,32 @@ python run_result_vc.py
 <table>
   <tr>
     <td align="center">
+      <img src="https://github.com/user-attachments/assets/1fc7612b-c6f7-4386-ba82-7ecc566df294" alt="radar_chart_en"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/b5a9914d-301f-40f9-a7bf-fd64f2487cf9" alt="radar_chart_zh"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">radar_chart_en.png</td>
+    <td align="center">radar_chart_zh.png</td>
+  </tr>
+</table>
+
+计算MOS模型与GroundTruth MOS的MSE
+```bash
+python run_compute_mos_mse.py
+```
+
+结果和结果图将输出在output文件夹中：
++ output/mse_tts_bar.json
++ output/bar_group_en.png
++ output/bar_group_zh.png
+
+输出示例图：
+<table>
+  <tr>
+    <td align="center">
       <img src="https://github.com/user-attachments/assets/786b4b05-aefb-4166-bdf6-342118cfc49e" alt="radar_chart_en"/>
     </td>
     <td align="center">
