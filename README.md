@@ -375,38 +375,45 @@ output
 3. 将模型名称MODEL_NAME添加到run_upstream_vc.sh，脚本将执行`python Upstream_VC/run_$MODEL_NAME.py --lang "$LANG"`
 4. 运行`bash run_upstream_vc.sh MODEL_NAME`启动上游VC语音转换任务
 
-## TTM自动质量评估模块运行方法
+
+---
+
+# AI辅助评测工具2.0运行说明
+
+## TTM自动质量评估模块
 ### 第一部分：环境和模型准备
 
 #### 模型下载
-- 特征提取器采用[CLAMP3](https://huggingface.co/sander-wood/clamp3/blob/main/weights_clamp3_saas_h_size_768_t_model_FacebookAI_xlm-roberta-base_t_length_128_a_size_768_a_layers_12_a_length_128_s_size_768_s_layers_12_p_size_64_p_length_512.pth)
-- 轻量MLP下游预测头模型[checkpoint]()
+- [CLAMP3预训练模型](https://huggingface.co/sander-wood/clamp3/blob/main/weights_clamp3_saas_h_size_768_t_model_FacebookAI_xlm-roberta-base_t_length_128_a_size_768_a_layers_12_a_length_128_s_size_768_s_layers_12_p_size_64_p_length_512.pth)
+
+- [下游预测头chechpoint](https://drive.google.com/drive/folders/1KJcUjfk4g1RCDp8sZ2n50vqHOu6Zce2V?usp=drive_link)：[MusicEval](https://arxiv.org/abs/2501.10811)中使用的基于3层MLP的预测头模型
 
 #### 数据准备
-- 上游文本输入位于 `InputData/ttm/prompt_info.txt`，每行包含一个文本提示词的 id 和文本内容
 
-音频合成后，生成的音频将位于 `InputData/ttm/wavs/`
+用于音乐音频生成的文本输入位于 `InputData/ttm/prompt_info.txt`，每行包含一个文本提示词的 id 和文本内容
 
 
 ### 第二部分：上游运行（TTM文本生成音乐）
 
-- 音乐音频合成
+以`facebook/musicgen-small`为例，使用提供的脚本`run_upstream_ttm.sh`一键运行TTM文本生成音乐，生成的音频将位于 `InputData/ttm/wavs/`
 ```bash
 bash run_upstream_ttm.sh
 ```
 
-### 第三部分：下游运行（基于MusicEval的评估指标预测）
+### 第三部分：下游运行（基于MusicEval的自动质量评估）
 
-
-运行下游评估脚本`run_downstream_ttm.sh`，完成：
+使用提供的脚本`run_downstream_ttm.sh`一键运行评估，包括：
 - 文本拆分
 - CLAMP3 文本/音频 global embed 提取
-- 完成下游推理，保存结果到 `OutputData/ttm_eval/`下
+- 完成下游推理，保存结果到 `OutputData/ttm_eval/`
 
 ```bash
 bash run_downstream_ttm.sh
 ```
-
+- 评测系统性能比较
+```bash
+python run_compute_mos_mse_ttm.py 
+```
 
 ## 🚀 更新：支持更多的MOS
 除RAMP外，我们还集成了更多的MOS评测方法：[mos-finetune-ssl](https://github.com/nii-yamagishilab/mos-finetune-ssl)、[audiobox-aesthetics](https://github.com/facebookresearch/audiobox-aesthetics)和[UTMOS](https://github.com/sarulab-speech/UTMOS22)。

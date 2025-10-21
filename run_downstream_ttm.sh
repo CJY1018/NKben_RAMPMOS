@@ -24,7 +24,7 @@ python3 thirdparty/clamp3/clamp3_embd.py "$WAV_DIR" "$AUDIO_EMBED_OUT" --get_glo
 # 4. 运行推理
 echo "[4/4] Running downstream inference with MusicEval MosPredictor..."
 OUTDIR="OutputData/ttm_eval"
-CKPT_PATH="model_ckpt/musiceval_ckpt/best_ckpt_28"
+CKPT_PATH="model_ckpt/musiceval_ckpt/best_ckpt_88"
 mkdir -p "$OUTDIR"
 python3 run_musiceval.py --outdir "$OUTDIR" --ckpt "$CKPT_PATH" --get_global \
 	--audio_embed_dir "$AUDIO_EMBED_OUT" --text_embed_dir "$TEXT_EMBED_OUT"

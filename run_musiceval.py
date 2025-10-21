@@ -71,7 +71,7 @@ def main():
     out_file = os.path.join(outdir, 'results')
 
     predictions = run_inference(model, device, out_file, args.audio_embed_dir, args.text_embed_dir)
-    print('Saved results to', out_file + '.txt and .json')
+    print('Saved results to', out_file + '.txt')
 
 if __name__ == '__main__':
     main()

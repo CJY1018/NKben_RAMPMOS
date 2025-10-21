@@ -3,6 +3,7 @@ model_ckpt/wav2vec_small.pt
 model_ckpt/ramp_ckpt
 model_ckpt/ramp_ckpt_vc
 model_ckpt/musiceval_ckpt/best_ckpt_28
+model_ckpt/musiceval_ckpt/best_ckpt_88
 datastore_profile/od_emb_array.pkl
 datastore_profile/od_label_array.pkl
 datastore_profile/od_sys_array.pkl
@@ -30,3 +31,4 @@ InputData/ttm/wavs/
 InputData/ttm/audio_embed/
 InputData/ttm/text_embed/
 InputData/ttm/prompt_info.txt
+InputData/ttm/total_mos_list.txt
