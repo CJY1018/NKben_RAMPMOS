@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""
-评估生成音乐音频文件的脚本
-1)使用CLAMP3提取text和audio embed
-2)加载经微调的MosPredictor检查点
-3)推理,打印预测两个维度的MOS分数并保存到txt和json文件
-"""
+
 import os
 import argparse
 import json

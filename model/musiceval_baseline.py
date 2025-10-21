@@ -10,10 +10,8 @@ random.seed(1984)
 
 def load_clamp3_from_filename(wav_name, audio_embed_dir, text_embed_dir, device: torch.device = None):
     """
-    input:单个wav文件名
-      'S001_P001'
-    returns:加载对应的 audio/text embed npy文件
-      (audio_embeds_tensor, text_embeds_tensor)
+    input: 'path/to/S001_P001.wav'
+    return: (audio_embeds_tensor, text_embeds_tensor)
     """
     if device is None:
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -50,8 +48,8 @@ class MosPredictor(nn.Module):
 
     def forward(self, audio_embeds, text_embeds):
         """
-        input:(64,768)
-        return:(64,1)
+        input:(bs, 768)
+        return:(bs, 1)
         """ 
         combine_embed=torch.cat((audio_embeds,text_embeds),dim=1) # bs*(768*2)        
         hidden1 = self.overall_mlp_layer1(audio_embeds)
