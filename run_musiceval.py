@@ -22,28 +22,30 @@ def load_checkpoint(checkpoint_path, device, ssl_out_dim=768):
 
 def run_inference(model, device, out_file, audio_embed_dir, text_embed_dir):
     wav_files = sorted([p for p in Path(audio_embed_dir).rglob('*.npy')])
-    predict = {}
-    for wav_name in tqdm(wav_files, desc='Inferring'):
+    predict_overall = {}
+    predict_textual = {}
+    for wav_path in tqdm(wav_files, desc='Inferring'):
+        # wav_path is a pathlib.Path; convert to str for file ops
+        wav_str = str(wav_path)
         # p:S001_P001，据此加载对应的 audio/text embed
-        audio_embeds, text_embeds = load_clamp3_from_filename([str(wav_name)], audio_embed_dir, text_embed_dir, device=device)
+        audio_embeds, text_embeds = load_clamp3_from_filename(wav_str, audio_embed_dir, text_embed_dir, device=device)
 
         with torch.no_grad():
-            output = model(audio_embeds,text_embeds)
-
-        out_val = output.cpu().numpy().squeeze().tolist()  # [mos1,mos2]
-        wav_id = wav_name.split('.')[0]
-        predict[wav_id] = float(out_val)
+            output1, output2 = model(audio_embeds, text_embeds)
+        output1 = output1.cpu().detach().numpy()[0][0]
+        output2 = output2.cpu().detach().numpy()[0][0]
+        wav_id = wav_path.stem
+        predict_overall[wav_id] = output1
+        predict_textual[wav_id] = output2
 
     # write txt and json
     txt_lines = []
-    for wav_id in sorted(predict.keys()):
-        txt_lines.append(f"{wav_id},{predict[wav_id]}\n")
+    for wav_id in sorted(predict_overall.keys()):
+        txt_lines.append(f"{wav_id},{predict_overall[wav_id]},{predict_textual[wav_id]}\n")
     with open(out_file + '.txt', 'w') as f:
         f.writelines(txt_lines)
-    with open(out_file + '.json', 'w') as f:
-        json.dump(predict, f, indent=4)
 
-    return predict
+    return predict_overall
 
 
 def main():

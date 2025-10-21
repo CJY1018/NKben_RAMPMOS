@@ -376,24 +376,32 @@ output
 4. 运行`bash run_upstream_vc.sh MODEL_NAME`启动上游VC语音转换任务
 
 ## TTM自动质量评估模块运行方法
-### 第一部分：上游运行（TTM文本生成音乐）
+### 第一部分：环境和模型准备
+
+#### 模型下载
+- 特征提取器采用[CLAMP3](https://huggingface.co/sander-wood/clamp3/blob/main/weights_clamp3_saas_h_size_768_t_model_FacebookAI_xlm-roberta-base_t_length_128_a_size_768_a_layers_12_a_length_128_s_size_768_s_layers_12_p_size_64_p_length_512.pth)
+- 轻量MLP下游预测头模型[checkpoint]()
 
 #### 数据准备
 - 上游文本输入位于 `InputData/ttm/prompt_info.txt`，每行包含一个文本提示词的 id 和文本内容
+
+音频合成后，生成的音频将位于 `InputData/ttm/wavs/`
+
+
+### 第二部分：上游运行（TTM文本生成音乐）
+
 - 音乐音频合成
 ```bash
 bash run_upstream_ttm.sh
 ```
-音频合成后，生成的音频将位于 `InputData/ttm/wavs/`
 
+### 第三部分：下游运行（基于MusicEval的评估指标预测）
 
-### 第二部分：下游运行（基于MusicEval的评估指标预测）
-特征提取器采用[CLAMP3](https://huggingface.co/sander-wood/clamp3/blob/main/weights_clamp3_saas_h_size_768_t_model_FacebookAI_xlm-roberta-base_t_length_128_a_size_768_a_layers_12_a_length_128_s_size_768_s_layers_12_p_size_64_p_length_512.pth)
 
 运行下游评估脚本`run_downstream_ttm.sh`，完成：
 - 文本拆分
 - CLAMP3 文本/音频 global embed 提取
-- 使用一个轻量MLP下游预测头模型完成下游推理，保存结果到 `OutputData/ttm_eval/`下
+- 完成下游推理，保存结果到 `OutputData/ttm_eval/`下
 
 ```bash
 bash run_downstream_ttm.sh

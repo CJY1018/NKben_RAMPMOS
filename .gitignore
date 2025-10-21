@@ -26,3 +26,7 @@ meta_*.csv
 /output_old
 split_gt.py
 to_label.py
+InputData/ttm/wavs/
+InputData/ttm/audio_embed/
+InputData/ttm/text_embed/
+InputData/ttm/prompt_info.txt

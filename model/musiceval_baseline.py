@@ -47,10 +47,7 @@ class MosPredictor(nn.Module):
 
 
     def forward(self, audio_embeds, text_embeds):
-        """
-        input:(bs, 768)
-        return:(bs, 1)
-        """ 
+
         combine_embed=torch.cat((audio_embeds,text_embeds),dim=1) # bs*(768*2)        
         hidden1 = self.overall_mlp_layer1(audio_embeds)
         hidden1_2 = self.overall_mlp_layer2(hidden1)
