@@ -375,6 +375,12 @@ output
 3. 将模型名称MODEL_NAME添加到run_upstream_vc.sh，脚本将执行`python Upstream_VC/run_$MODEL_NAME.py --lang "$LANG"`
 4. 运行`bash run_upstream_vc.sh MODEL_NAME`启动上游VC语音转换任务
 
+## TTM模块运行方法
+### 第一部分：上游运行（TTM文本生成音乐）
+
+### 第二部分：下游运行（基于MusicEval的评估指标预测）
+
+
 ## 🚀 更新：支持更多的MOS
 除RAMP外，我们还集成了更多的MOS评测方法：[mos-finetune-ssl](https://github.com/nii-yamagishilab/mos-finetune-ssl)、[audiobox-aesthetics](https://github.com/facebookresearch/audiobox-aesthetics)和[UTMOS](https://github.com/sarulab-speech/UTMOS22)。
 

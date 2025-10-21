@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
-
+"""
+生成音乐文件的脚本，基于Hugging Face的MusicGen模型。
+"""
 import os
 import csv
 import re
@@ -8,21 +9,11 @@ import numpy as np
 import scipy.io.wavfile
 from transformers import pipeline
 
-def extract_numeric(pid: str) -> str:
-	"""从类似 P001 的 id 中提取数字部分，若不存在数字则返回原始字符串"""
-	if pid is None:
-		return ""
-	m = re.search(r"(\d+)", pid)
-	return m.group(1) if m else pid
-
-
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--prompt_file', type=str, default=None,
-						help='prompt_info file path (default: InputData/ttm/prompt_info.txt)')
-	parser.add_argument('--out_dir', type=str, default=None,
-						help='output wav directory (default: InputData/ttm/wavs)')
-	parser.add_argument('--model', type=str, default='facebook/musicgen-small', help='model id for text-to-music')
+	parser.add_argument('--prompt_file', type=str, default = 'InputData/ttm/prompt_info.txt', help='prompt_info file path')
+	parser.add_argument('--out_dir', type=str, default='InputData/ttm/wavs', help='output wav directory')
+	parser.add_argument('--model', type=str, default='facebook/musicgen-small', help='model for text-to-music')
 	parser.add_argument('--device', type=str, default=None, help='device for transformers pipeline (e.g. "cuda" or "cpu")')
 	args = parser.parse_args()
 
@@ -49,13 +40,12 @@ def main():
 	print(f'Found {len(rows)} prompts, generating audio into: {out_dir}')
 
 	for row in rows:
-		pid = row.get('id') or row.get('ID') or row.get('p_id') or ''
-		text = row.get('text') or row.get('prompt') or row.get('prompt_text') or ''
-		numeric = extract_numeric(pid)
-		out_name = f'S010_P{numeric}.wav'
+		prompt_id = row.get('id')
+		text = row.get('text')
+		out_name = f'S010_{prompt_id}.wav'
 		out_path = os.path.join(out_dir, out_name)
 		if not text:
-			print(f'Skipping {pid}: empty text')
+			print(f'Skipping {prompt_id}: empty text')
 			continue
 		try:
 			print(f'Generating {out_name} ...')
@@ -74,7 +64,7 @@ def main():
 			scipy.io.wavfile.write(out_path, rate=sr, data=audio_int16)
 			print(f'Saved: {out_path}')
 		except Exception as e:
-			print(f'Failed to generate for {pid}: {e}')
+			print(f'Failed to generate for {prompt_id}: {e}')
 
 	print('All done.')
 
