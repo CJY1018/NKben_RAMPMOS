@@ -510,43 +510,8 @@ VC模型输出平均结果：
 python run_result_vc.py
 ```
 
-新的输出示例图：
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/786b4b05-aefb-4166-bdf6-342118cfc49e" alt="radar_chart_en"/>
-    </td>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/9cda96f2-be57-4095-8d32-b014d3f5cbc8" alt="radar_chart_zh"/>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">radar_chart_en.png</td>
-    <td align="center">radar_chart_zh.png</td>
-  </tr>
-</table>
-
-## 🚀 更新：支持更换ramp的datastore_profile，添加GroundTruth
-如datastore_profile/label.txt中所示，我们新增了针对CosyVoice2和XTTS模型GroundTruth MOS的datastore_profile，并更换了ramp默认的datastore_profile来更精确地评测TTS模型合成音频分布的MOS。
-
-您也可以根据需要更换ramp的datastore_profile，具体如下：
-1. 准备datastore_profile
-```bash
-参考datastore_profile/label.txt中的格式，准备好您的datastore_profile
-```
-
-2. 运行get_datastore.py生成datastore
-```bash
-python get_datastore.py --datadir datastore_profile/label.txt --checkpoint model_ckpt/ramp_ckpt --datastore_path datastore_profile
-``` 
-
-3. 重新运行ramp评测
-```bashbash
-bash run_downstream.sh cosyvoice2
-bash run_downstream.sh xtts
-```
-
-此外，现在支持添加TTS模型和VC模型的GroundTruth MOS打分，显示在结果中，具体如下：
+## 🚀 更新：支持添加GroundTruth计算MSE
+现在支持添加TTS模型和VC模型的GroundTruth MOS打分，用于计算各MOS模型和GT的MSE，显示在结果中，具体如下：
 
 1. 准备GroundTruth MOS打分文件
 在output文件夹下，按照gt_TTSMODEL_en.csv和gt_TTSMODEL_zh.csv或gt_VCMODEL_en.csv和gt_VCMODEL_zh.csv的格式准备好GroundTruth MOS打分文件，参考格式如下：
@@ -565,21 +530,6 @@ python run_plot.py
 # VC模型
 python run_result_vc.py
 ```
-新的输出示例图：
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/1fc7612b-c6f7-4386-ba82-7ecc566df294" alt="radar_chart_en"/>
-    </td>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/b5a9914d-301f-40f9-a7bf-fd64f2487cf9" alt="radar_chart_zh"/>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">radar_chart_en.png</td>
-    <td align="center">radar_chart_zh.png</td>
-  </tr>
-</table>
 
 计算MOS模型与GroundTruth MOS的MSE
 ```bash
