@@ -62,34 +62,50 @@ def compute_mse(pred_dict, gt_dict):
 
 
 def plot_mse_comparison(rows, out_path):
-    """绘制两个方法的 MSE 对比柱状图（带上留白）"""
+    """绘制两个方法的 MSE 对比柱状图（带上留白和 N/A 模型），风格与 grouped_bars 保持一致"""
+    # 原有方法和 MSE
     labels = [r['method'] for r in rows]
     mses = [r['mse'] for r in rows]
 
-    plt.figure(figsize=(6, 4))
-    x = np.arange(len(labels))
-    bars = plt.bar(x, mses, color=['#1f77b4', '#ff7f0e'][:len(labels)], alpha=0.9)
+    # 添加两列空模型
+    extra_labels = ['sslmos', 'utmos']
+    extra_mses = [0, 0]  # 占位
+    all_labels = labels + extra_labels
+    all_mses = mses + extra_mses
 
-    # 顶部标注并自动留白
-    ymax = max(mses)
-    for b, m in zip(bars, mses):
-        plt.text(b.get_x() + b.get_width() / 2, m + ymax * 0.05, f"{m:.6f}",
-                 ha='center', va='bottom', fontsize=10, fontweight='bold')
+    # 配色：原有模型用指定颜色，空模型灰色
+    base_colors = ['#ffaf00', '#f46920', '#1f77b4', '#2ca02c']
+    colors = [base_colors[i % len(base_colors)] for i in range(len(labels))] + ['lightgray'] * len(extra_labels)
 
-    plt.ylim(0, ymax * 1.25)
-    plt.xticks(x, labels, rotation=25, ha='right', fontsize=11)
-    plt.ylabel('MSE vs GT', fontsize=12)
-    plt.title('TTM MSE Comparison: musiceval vs audiobox (PQ scaled)', fontsize=11)
+    plt.figure(figsize=(10, 6))
+    x = np.arange(len(all_labels))
+    width = 0.6
+
+    bars = plt.bar(x, all_mses, width=width, color=colors, alpha=0.85)
+
+    # 顶部标注
+    ymax = max(mses) * 1.15
+    for i, (b, m) in enumerate(zip(bars, all_mses)):
+        if i >= len(labels):  # 空模型
+            plt.text(b.get_x() + b.get_width()/2, 0.02, "N/A",
+                     ha='center', va='bottom', fontsize=12, fontweight='bold', color='black')
+        else:
+            plt.text(b.get_x() + b.get_width()/2, m + ymax * 0.02, f"{m:.3f}",
+                     ha='center', va='bottom', fontsize=10, fontweight='bold', color=colors[i])
+
+    plt.xticks(x, all_labels, rotation=25, ha='right', fontsize=12)
+    plt.ylabel('MSE', fontsize=12)
+    plt.title('MOS MSE Comparison (TTM)', fontsize=14)
+    plt.ylim(0, ymax)
     plt.grid(axis='y', linestyle='--', alpha=0.4)
     plt.tight_layout()
     plt.savefig(out_path, dpi=300)
     plt.close()
     print(f"✅ Saved plot to {out_path}")
 
-
 if __name__ == "__main__":
     # 路径设置
-    output_dir = 'output'
+    output_dir = 'OutputData/ttm_eval/'
     os.makedirs(output_dir, exist_ok=True)
     musiceval_results = 'OutputData/ttm_eval/results.txt'
     gt_file = 'InputData/ttm/total_mos_list.txt'

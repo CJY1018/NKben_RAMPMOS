@@ -32,3 +32,4 @@ InputData/ttm/audio_embed/
 InputData/ttm/text_embed/
 InputData/ttm/prompt_info.txt
 InputData/ttm/total_mos_list.txt
+thirdparty/audioldm_eval/example

@@ -414,6 +414,36 @@ bash run_downstream_ttm.sh
 ```bash
 python run_compute_mos_mse_ttm.py 
 ```
+### 第四部分：绘制指标雷达图
+
+TTM模型输出结果和柱状图、雷达图：
+```bash
+python run_compute_mos_mse_ttm.py
+python run_plot_ttm.py
+```
+结果将输出在OutputData/ttm_eval文件夹中：
+```
+OutputData/ttm_eval
+├── metrics_result.json
+├── ttm_mos_methods_mse.png
+└── ttm_radar.png
+```
+输出示例图：
+<table>
+  <tr>
+    <td align="center">
+      <img src="OuputData/ttm_eval/ttm_mos_methods_mse.png" alt="ttm_mos_methods_mse"/>
+    </td>
+    <td align="center">
+      <img src="OuputData/ttm_eval/ttm_radar.png" alt="ttm_radar"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">ttm_mos_methods_mse.png</td>
+    <td align="center">ttm_radar.png</td>
+  </tr>
+</table>
+
 
 ## 🚀 更新：支持更多的MOS
 除RAMP外，我们还集成了更多的MOS评测方法：[mos-finetune-ssl](https://github.com/nii-yamagishilab/mos-finetune-ssl)、[audiobox-aesthetics](https://github.com/facebookresearch/audiobox-aesthetics)和[UTMOS](https://github.com/sarulab-speech/UTMOS22)。
