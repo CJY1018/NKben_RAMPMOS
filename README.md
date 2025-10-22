@@ -414,9 +414,9 @@ bash run_downstream_ttm.sh
 ```bash
 python run_compute_mos_mse_ttm.py 
 ```
-### 第四部分：绘制指标雷达图
+### 第四部分：绘制TTM模型输出指标图
 
-TTM模型输出结果和柱状图、雷达图：
+运行
 ```bash
 python run_compute_mos_mse_ttm.py
 python run_plot_ttm.py
@@ -432,10 +432,10 @@ OutputData/ttm_eval
 <table>
   <tr>
     <td align="center">
-      <img src="OuputData/ttm_eval/ttm_mos_methods_mse.png" alt="ttm_mos_methods_mse"/>
+      <img src="OutputData/ttm_eval/ttm_mos_methods_mse.png" alt="ttm_mos_methods_mse"/>
     </td>
     <td align="center">
-      <img src="OuputData/ttm_eval/ttm_radar.png" alt="ttm_radar"/>
+      <img src="OutputData/ttm_eval/ttm_radar.png" alt="ttm_radar"/>
     </td>
   </tr>
   <tr>
