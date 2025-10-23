@@ -431,8 +431,16 @@ OutputData/ttm_eval
 输出示例图：
 <table>
   <tr>
+    <td align="center">Overall Quality 维度</td>
+    <td align="center">Textual Alignment 维度</td>
+    <td align="center">各指标雷达图</td>
+  </tr>
+  <tr>
     <td align="center">
       <img src="OutputData/ttm_eval/ttm_mos_methods_mse.png" alt="ttm_mos_methods_mse"/>
+    </td>
+    <td align="center">
+      <img src="OutputData/ttm_eval/ttm_mos_methods_mse_textual.png" alt="ttm_mos_methods_mse"/>
     </td>
     <td align="center">
       <img src="OutputData/ttm_eval/ttm_radar.png" alt="ttm_radar"/>
@@ -440,6 +448,7 @@ OutputData/ttm_eval
   </tr>
   <tr>
     <td align="center">ttm_mos_methods_mse.png</td>
+    <td align="center">ttm_mos_methods_mse_textual.png</td>
     <td align="center">ttm_radar.png</td>
   </tr>
 </table>
