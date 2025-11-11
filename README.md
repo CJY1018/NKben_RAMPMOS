@@ -383,6 +383,17 @@ output
 ## TTM自动质量评估模块
 ### 第一部分：环境和模型准备
 
+#### 环境配置
+```
+python -V
+# Python 3.10.16
+
+# 安装依赖
+pip install -r requirements_ttm.txt
+
+# 安装audiocraft
+pip install git+https://github.com/facebookresearch/audiocraft.git
+```
 #### 模型下载
 - [CLAMP3预训练模型](https://huggingface.co/sander-wood/clamp3/blob/main/weights_clamp3_saas_h_size_768_t_model_FacebookAI_xlm-roberta-base_t_length_128_a_size_768_a_layers_12_a_length_128_s_size_768_s_layers_12_p_size_64_p_length_512.pth)
 
