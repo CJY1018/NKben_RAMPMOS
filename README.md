@@ -410,10 +410,7 @@ bash run_upstream_ttm.sh
 ```bash
 bash run_downstream_ttm.sh
 ```
-- 评测系统性能比较
-```bash
-python run_compute_mos_mse_ttm.py 
-```
+
 ### 第四部分：绘制TTM模型输出指标图
 
 运行
@@ -425,7 +422,10 @@ python run_plot_ttm.py
 ```
 OutputData/ttm_eval
 ├── metrics_result.json
-├── ttm_mos_methods_mse.png
+├── ttm_mos_methods_mse_overall.csv
+├── ttm_mos_methods_mse_overall.png
+├── ttm_mos_methods_mse_textual.png
+├── ttm_mos_methods_mse_textual.csv
 └── ttm_radar.png
 ```
 输出示例图：

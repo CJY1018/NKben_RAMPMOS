@@ -9,10 +9,11 @@ import matplotlib.pyplot as plt
 
 def read_results_txt(path):
     """读取 musiceval 输出结果 (filename, score)"""
-    data = {}
+    data_overall = {}
+    data_textual = {}
     if not os.path.exists(path):
         print(f"Musiceval results not found: {path}")
-        return data
+        return data_overall,data_textual
 
     with open(path, 'r', encoding='utf-8') as f:
         for line in f:
@@ -21,20 +22,22 @@ def read_results_txt(path):
                 continue
             name = os.path.splitext(parts[0].strip())[0]
             try:
-                # score = float(parts[1])  # 取 overall quality
-                score = float(parts[2])  # 取 textual alignment
+                score_overall = float(parts[1])  # 取 overall quality
+                score_textual = float(parts[2])  # 取 textual alignment
             except ValueError:
                 continue
-            data[name] = score
-    return data
+            data_overall[name] = score_overall
+            data_textual[name] = score_textual
+    return data_overall,data_textual
 
 
 def read_gt(path):
     """读取 Ground Truth MOS 列表"""
-    data = {}
+    gt_overall = {}
+    gt_textual = {}
     if not os.path.exists(path):
         print(f"GT file not found: {path}")
-        return data
+        return gt_overall,gt_textual
 
     with open(path, 'r', encoding='utf-8') as f:
         for line in f:
@@ -44,12 +47,13 @@ def read_gt(path):
             name = os.path.splitext(parts[0].strip())[0]
             if name.startswith('S010'):  # MusicEval 对应 S010 开头
                 try:
-                    # score = float(parts[1])
-                    score = float(parts[2])
-                    data[name] = score
+                    score_overall = float(parts[1])
+                    score_textual = float(parts[2])
+                    gt_overall[name] = score_overall
+                    gt_textual[name] = score_textual
                 except ValueError:
                     continue
-    return data
+    return gt_overall,gt_textual
 
 
 def compute_mse(pred_dict, gt_dict):
@@ -114,59 +118,62 @@ if __name__ == "__main__":
     wav_dir = 'InputData/ttm/wavs'
 
     # 1) 读取数据
-    musiceval = read_results_txt(musiceval_results)
-    gt = read_gt(gt_file)
+    musiceval_overall, musiceval_textual = read_results_txt(musiceval_results)
+    gt_overall, gt_textual = read_gt(gt_file)
 
-    # 2) 运行 Audiobox 预测（如可用）
-    # audiobox_scores = {}
-    # if os.path.isdir(wav_dir):
-    #     wav_paths = [os.path.join(wav_dir, fn) for fn in sorted(os.listdir(wav_dir)) if fn.endswith('.wav')]
-    #     if wav_paths:
-    #         try:
-    #             from predict_audiobox import predict_audiobox
-    #             meta_df = pd.DataFrame({'infer_wav': wav_paths})
-    #             out_df, avg_audiobox = predict_audiobox(meta_df, metric='PQ')
-    #             for _, row in out_df.iterrows():
-    #                 name = os.path.splitext(str(row['filename']))[0]
-    #                 audiobox_scores[name] = float(row['audiobox']) / 2.0  # 归一化到 1–5
-    #             print(f"Audiobox predicted {len(audiobox_scores)} files, avg raw={avg_audiobox}")
-    #         except Exception as e:
-    #             print(f"⚠️ Failed to run audiobox prediction: {e}")
-    # else:
-    #     print(f"⚠️ Wav dir not found: {wav_dir}")
+    # 2) 计算Audiobox-PQ,与MusicEval-overall quality维度计算MSE作为对比
+    audiobox_scores = {}
+    if os.path.isdir(wav_dir):
+        wav_paths = [os.path.join(wav_dir, fn) for fn in sorted(os.listdir(wav_dir)) if fn.endswith('.wav')]
+        if wav_paths:
+            try:
+                from predict_audiobox import predict_audiobox
+                meta_df = pd.DataFrame({'infer_wav': wav_paths})
+                out_df, avg_audiobox = predict_audiobox(meta_df, metric='PQ')
+                for _, row in out_df.iterrows():
+                    name = os.path.splitext(str(row['filename']))[0]
+                    audiobox_scores[name] = float(row['audiobox']) / 2.0  # 归一化到 1–5
+                print(f"Audiobox predicted {len(audiobox_scores)} files, avg raw={avg_audiobox}")
+            except Exception as e:
+                print(f"⚠️ Failed to run audiobox prediction: {e}")
+    else:
+        print(f"⚠️ Wav dir not found: {wav_dir}")
 
     # 3) 计算 MSE
-    musiceval_mse, musiceval_n = compute_mse(musiceval, gt)
-    # audiobox_mse, audiobox_n = compute_mse(audiobox_scores, gt)
+    musiceval_mse_overall, musiceval_n_overall = compute_mse(musiceval_overall, gt_overall)
+    musiceval_mse_textual, musiceval_n_textual = compute_mse(musiceval_textual, gt_textual)
+    audiobox_mse, audiobox_n = compute_mse(audiobox_scores, gt_overall)
 
-    print(f"Musiceval MSE={musiceval_mse} (n={musiceval_n})")
-    # print(f"Audiobox MSE={audiobox_mse} (n={audiobox_n})")
+    print(f"Musiceval MSE Overall={musiceval_mse_overall} (n={musiceval_n_overall})")
+    print(f"Musiceval MSE Textual={musiceval_mse_textual} (n={musiceval_n_textual})")
+    print(f"Audiobox MSE={audiobox_mse} (n={audiobox_n})")
 
-    # 4) 保存结果 CSV
-    rows = []
-    if musiceval_mse is not None:
-        rows.append({'method': 'musiceval', 'mse': musiceval_mse, 'n': musiceval_n})
-    # if audiobox_mse is not None:
-    #     rows.append({'method': 'audiobox_PQ_scaled', 'mse': audiobox_mse, 'n': audiobox_n})
+    # 4) 保存overall quality结果 CSV
+    rows_overall = []
+    if musiceval_mse_overall is not None:
+        rows_overall.append({'method': 'musiceval_overall', 'mse': musiceval_mse_overall, 'n': musiceval_n_overall})
+    if audiobox_mse is not None:
+        rows_overall.append({'method': 'audiobox_PQ_scaled', 'mse': audiobox_mse, 'n': audiobox_n})
 
-    mse_df = pd.DataFrame(rows)
-    mse_csv = os.path.join(output_dir, 'ttm_mos_method_mse_textual.csv')
+    mse_df = pd.DataFrame(rows_overall)
+    mse_csv = os.path.join(output_dir, 'ttm_mos_method_mse_overall.csv')
     mse_df.to_csv(mse_csv, index=False)
     print(f"✅ Saved MSE csv to {mse_csv}")
 
-    # 5) 绘制图像
-    out_png = os.path.join(output_dir, 'ttm_mos_methods_mse_textual.png')
-    plot_mse_comparison(rows, out_png)
+    # 5) 绘制overall quality MSE 柱状图
+    out_png = os.path.join(output_dir, 'ttm_mos_methods_mse_overall.png')
+    plot_mse_comparison(rows_overall, out_png)
 
-    # 6) 导出对齐数据便于检查
-    # all_keys = sorted(set(gt) | set(musiceval) | set(audiobox_scores))
-    # aligned_rows = [{
-    #     'filename': k,
-    #     'gt': gt.get(k, np.nan),
-    #     'musiceval': musiceval.get(k, np.nan),
-    #     'audiobox_PQ_scaled': audiobox_scores.get(k, np.nan)
-    # } for k in all_keys]
-    # df_aligned = pd.DataFrame(aligned_rows)
-    # aligned_csv = os.path.join(output_dir, 'ttm_aligned_predictions.csv')
-    # df_aligned.to_csv(aligned_csv, index=False)
-    # print(f"✅ Saved aligned predictions to {aligned_csv}")
+    # 6) 保存textual 结果 CSV(仅musiceval单系统.无比对)
+    rows_texual = []
+    if musiceval_mse_textual is not None:
+        rows_texual.append({'method': 'musiceval_textual', 'mse': musiceval_mse_textual, 'n': musiceval_n_textual})
+        mse_df = pd.DataFrame(rows_overall)
+    mse_csv = os.path.join(output_dir, 'ttm_mos_method_mse_textual.csv')
+    mse_df.to_csv(mse_csv, index=False)
+    print(f"✅ Saved MSE csv to {mse_csv}")
+    
+    # 7) 绘制 textual MSE 柱状图
+    out_png = os.path.join(output_dir, 'ttm_mos_methods_mse_textual.png')
+    plot_mse_comparison(rows_texual, out_png)
+

@@ -50,7 +50,7 @@ def run_inference(model, device, out_file, audio_embed_dir, text_embed_dir):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--outdir', required=False, default = 'OutputData/ttm_eval', help='Output directory for embeddings and results')
+    parser.add_argument('--outdir', required=False, default = 'OutputData/ttm_eval', help='Output directory for results.txt')
     parser.add_argument('--ckpt', required=False, default = 'model_ckpt/musiceval_ckpt/best_ckpt_28', help='Path to finetuned MLP checkpoint')
     parser.add_argument('--get_global', action='store_true', help='Extract global embeddings (1,dim)')
     parser.add_argument('--ssl_dim', type=int, default=768, help='SSL output dimension (default 768 for clamp3)')

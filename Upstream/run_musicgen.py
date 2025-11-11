@@ -36,7 +36,7 @@ def main():
     # 加载模型
     model = MusicGen.get_pretrained(args.model)
     model.set_generation_params(duration=args.duration)
-    model = model.to(device)
+    # model = model.to(device)
 
     # 读取 prompt 文件
     with open(args.prompt_file, 'r', encoding='utf-8') as f:
@@ -45,36 +45,50 @@ def main():
 
     print(f'Found {len(rows)} prompts, generating audio into: {args.out_dir}')
 
-    for row in rows:
-        prompt_id = row.get('id')
-        text = row.get('text')
+    batch_size = 4
+    i = 0
+    total = len(rows)
 
-        if not text:
-            print(f'Skipping {prompt_id}: empty text')
+    while i < total:
+        batch = rows[i:i + batch_size]
+        texts = []
+        ids = []
+        for row in batch:
+            pid = row.get('id')
+            txt = row.get('text')
+            if not txt:
+                print(f'Skipping {pid}: empty text')
+                continue
+            ids.append(pid)
+            texts.append(txt)
+
+        if not texts:
+            i += batch_size
             continue
 
-        out_name = f'S010_{prompt_id}.wav'
-        out_path = os.path.join(args.out_dir, out_name)
+        out_names = [f'S010_{pid}.wav' for pid in ids]
+        print(f'Generating batch {i // batch_size + 1}: {[str(p) for p in ids]} ...')
 
         try:
-            print(f'Generating {out_name} from text: "{text}" ...')
-
             with torch.no_grad():
-                wav = model.generate([text])  # batch size = 1
+                wavs = model.generate(texts)  # batch generation, len(wavs) == len(texts)
 
-            # 取出第一个样本并保存
-            audio_write(
-                out_path.replace('.wav', ''),  # audio_write会自动加上.wav
-                wav[0].cpu(),
-                model.sample_rate,
-                strategy="loudness"
-            )
-
-            print(f'Saved: {out_path}')
+            # 保存每个样本
+            for j, wav in enumerate(wavs):
+                out_name = out_names[j]
+                out_path = os.path.join(args.out_dir, out_name)
+                audio_write(
+                    stem_name=out_path.replace('.wav', ''),
+                    wav=wav.cpu(),
+                    sample_rate=model.sample_rate,
+                )
+                print(f'Saved: {out_path}')
 
         except Exception as e:
-            print(f'Failed to generate for {prompt_id}: {e}')
+            print(f'Failed to generate batch starting at index {i}: {e}')
 
+        i += batch_size
+    
     print('All done.')
 
 
