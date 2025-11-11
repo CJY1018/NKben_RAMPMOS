@@ -388,11 +388,15 @@ output
 python -V
 # Python 3.10.16
 
-# 安装依赖
+# 安装依赖,参考https://huggingface.co/facebook/musicgen-small
 pip install -r requirements_ttm.txt
 
 # 安装audiocraft
 pip install git+https://github.com/facebookresearch/audiocraft.git
+
+# 安装clamp3
+cd thidparty
+git clone https://github.com/sanderwood/clamp3.git
 ```
 #### 模型下载
 - [CLAMP3预训练模型](https://huggingface.co/sander-wood/clamp3/blob/main/weights_clamp3_saas_h_size_768_t_model_FacebookAI_xlm-roberta-base_t_length_128_a_size_768_a_layers_12_a_length_128_s_size_768_s_layers_12_p_size_64_p_length_512.pth)
