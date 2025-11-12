@@ -452,7 +452,7 @@ OutputData/ttm_eval
   </tr>
   <tr>
     <td align="center">
-      <img src="OutputData/ttm_eval/ttm_mos_methods_mse.png" alt="ttm_mos_methods_mse"/>
+      <img src="OutputData/ttm_eval/ttm_mos_methods_mse_overall.png" alt="ttm_mos_methods_mse"/>
     </td>
     <td align="center">
       <img src="OutputData/ttm_eval/ttm_mos_methods_mse_textual.png" alt="ttm_mos_methods_mse"/>

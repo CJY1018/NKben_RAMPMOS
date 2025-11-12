@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # ============================================================
 
 def read_results_txt(path):
-    """读取 musiceval 输出结果 (filename, score)"""
+    """读取 musiceval 输出结果 (filename, score1, score2)"""
     data_overall = {}
     data_textual = {}
     if not os.path.exists(path):
@@ -114,8 +114,8 @@ if __name__ == "__main__":
     output_dir = 'OutputData/ttm_eval/'
     os.makedirs(output_dir, exist_ok=True)
     musiceval_results = 'OutputData/ttm_eval/results.txt'
-    gt_file = 'InputData/ttm/total_mos_list.txt'
-    wav_dir = 'InputData/ttm/wavs'
+    gt_file = 'InputData/ttm_regenerate/total_mos_list_S010.txt'
+    wav_dir = 'InputData/ttm_regenerate/wavs'
 
     # 1) 读取数据
     musiceval_overall, musiceval_textual = read_results_txt(musiceval_results)
@@ -132,7 +132,14 @@ if __name__ == "__main__":
                 out_df, avg_audiobox = predict_audiobox(meta_df, metric='PQ')
                 for _, row in out_df.iterrows():
                     name = os.path.splitext(str(row['filename']))[0]
-                    audiobox_scores[name] = float(row['audiobox']) / 2.0  # 归一化到 1–5
+                    # audiobox_scores[name] = float(row['audiobox']) / 2.0  # 归一化到 1–5
+                    # 线性映射 1..10 -> 1..5
+                    raw = float(row['audiobox'])
+                    mapped = (4.0/9.0) * raw + (5.0/9.0)
+                    # 可选地 clip 到 [1,5]
+                    mapped = max(1.0, min(5.0, mapped))
+                    audiobox_scores[name] = mapped
+                    
                 print(f"Audiobox predicted {len(audiobox_scores)} files, avg raw={avg_audiobox}")
             except Exception as e:
                 print(f"⚠️ Failed to run audiobox prediction: {e}")

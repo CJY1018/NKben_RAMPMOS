@@ -30,4 +30,7 @@ to_label.py
 InputData/ttm/wavs/
 InputData/ttm/audio_embed/
 InputData/ttm/text_embed/
+InputData/ttm_regenerate/wavs/
+InputData/ttm_regenerate/audio_embed/
+InputData/ttm_regenerate/text_embed/
 thirdparty/audioldm_eval/example
