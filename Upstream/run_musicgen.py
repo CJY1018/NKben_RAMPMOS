@@ -8,12 +8,13 @@ import torch
 import numpy as np
 from audiocraft.models import MusicGen
 from audiocraft.data.audio import audio_write
+import random
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--prompt_file', type=str, default='InputData/ttm/prompt_info.txt', help='prompt_info file path')
-    parser.add_argument('--out_dir', type=str, default='InputData/ttm/wavs', help='output wav directory')
+    parser.add_argument('--prompt_file', type=str, default='InputData/ttm_regenerate/prompt_info.txt', help='prompt_info file path')
+    parser.add_argument('--out_dir', type=str, required = True, help='output wav directory')
     parser.add_argument('--model', type=str, default='small', help='MusicGen model size: small | medium | large | melody')
     parser.add_argument('--duration', type=float, default=30, help='duration of generated music in seconds')
     parser.add_argument('--device', type=str, default=None, help='device to run model on (e.g. "cuda" or "cpu")')
@@ -35,8 +36,16 @@ def main():
 
     # 加载模型
     model = MusicGen.get_pretrained(args.model)
+
+    # 改为确定性采样
+    seed = 42
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
     model.set_generation_params(duration=args.duration)
-    # model = model.to(device)
 
     # 读取 prompt 文件
     with open(args.prompt_file, 'r', encoding='utf-8') as f:

@@ -9,17 +9,19 @@ import csv
 from msclap import CLAP
 
 # ========== 配置部分 ==========
-AUDIO_DIR = "InputData/ttm/wavs"
+AUDIO_DIR = "InputData/ttm_regenerate/wavs/"
 OUTPUT_JSON = "OutputData/ttm_eval/metrics_result.json"
 OUTPUT_RADAR = "OutputData/ttm_eval/ttm_radar.png"
 MOS_RESULT_PATH = "OutputData/ttm_eval/results.txt"
 REFERENCE_SET = "fma_pop"  # fad 参考集
 USE_GPU = True
-PROMPT_PATH = "InputData/ttm/prompt_info.txt"
+PROMPT_PATH = "InputData/ttm_regenerate/prompt_info.txt"
 
 
 # ====== Step 1. 计算 FAD ======
 def compute_fad_score(reference, audio_dir, timeout=600):
+    import re
+
     cmd = ["fadtk", "vggish", reference, audio_dir]
     print("Running command:", " ".join(cmd))
 
@@ -32,32 +34,58 @@ def compute_fad_score(reference, audio_dir, timeout=600):
         universal_newlines=True,
     )
 
-    fad_value = None
+    out_lines = []
     start_time = time.time()
-    last_line = ""
-    for line in iter(process.stdout.readline, ''):
-        line = line.strip()
+    # Read lines as they come (works with multi-threaded fadtk output)
+    while True:
+        line = process.stdout.readline()
+        if line == '' and process.poll() is not None:
+            break
         if line:
+            line = line.strip()
             print(line)
-            if "The FAD vggish score between" in last_line:
-                try:
-                    fad_value = float(line.split()[0])
-                    print(f"✅ Detected FAD score: {fad_value}")
-                except ValueError:
-                    pass
-            last_line = line
+            out_lines.append(line)
         if time.time() - start_time > timeout:
             process.kill()
             raise TimeoutError("FAD computation timed out.")
+
     process.stdout.close()
     process.wait()
 
+    text = "\n".join(out_lines)
+
+    # Try to find FAD value with context-aware regex (handles same-line or next-line number)
+    fad_value = None
+    # Common patterns: 'FAD vggish score', 'The FAD vggish score between ... is: 3.78',
+    # sometimes the number can be on the next line.
+    patterns = [
+        r'FAD.*?score.*?([+-]?\d*\.\d+(?:[eE][+-]?\d+)?)',
+        r'The FAD vggish score.*?([+-]?\d*\.\d+(?:[eE][+-]?\d+)?)',
+        r'is:\s*\n?\s*([+-]?\d*\.\d+(?:[eE][+-]?\d+)?)',
+    ]
+
+    for pat in patterns:
+        m = re.search(pat, text, re.IGNORECASE | re.DOTALL)
+        if m:
+            try:
+                fad_value = float(m.group(1))
+                break
+            except Exception:
+                fad_value = None
+
+    # Fallback: take the last floating-point number in output
+    if fad_value is None:
+        nums = re.findall(r'([+-]?\d*\.\d+(?:[eE][+-]?\d+)?)', text)
+        if nums:
+            fad_value = float(nums[-1])
+
     if fad_value is None:
         raise RuntimeError("❌ FAD score not found. Check fadtk output or model path.")
+
+    print(f"✅ Detected FAD score: {fad_value}")
     return fad_value
 
 
-# ====== Step 2. 计算 CLAP ======
 def load_prompts():
     prompts = {}
     with open(PROMPT_PATH, 'r', encoding='utf-8') as f:
@@ -67,6 +95,7 @@ def load_prompts():
     return prompts
 
 
+# ====== Step 2. 计算 CLAP ======
 def compute_clap_score(audio_dir):
     clap_model = CLAP(version='2023', use_cuda=USE_GPU)
     prompts = load_prompts()

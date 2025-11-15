@@ -6,19 +6,19 @@ cd "$ROOT_DIR"
 
 # 1. 准备文本文件
 echo "[1/4] Preparing per-prompt text files..."
-INPUT_PROMPT="InputData/ttm/prompt_info.txt"
-PROMPT_OUTDIR="InputData/ttm/prompt_info"
+INPUT_PROMPT="InputData/ttm_regenerate/prompt_info.txt"
+PROMPT_OUTDIR="InputData/ttm_regenerate/prompt_info"
 python3 InputData/ttm/prepare_text_input.py --input "$INPUT_PROMPT" --output "$PROMPT_OUTDIR"
 
 # 2. 提取文本 embedding（global）
 echo "[2/4] Extracting text embeddings (global)..."
-TEXT_EMBED_OUT="InputData/ttm/text_embed"
+TEXT_EMBED_OUT="InputData/ttm_regenerate/text_embed"
 python3 thirdparty/clamp3/clamp3_embd.py "$PROMPT_OUTDIR" "$TEXT_EMBED_OUT" --get_global
 
 # 3. 提取音频 embedding（global）
 echo "[3/4] Extracting audio embeddings (global)..."
-WAV_DIR="InputData/ttm/wavs"
-AUDIO_EMBED_OUT="InputData/ttm/audio_embed"
+WAV_DIR="InputData/ttm_regenerate/wavs"
+AUDIO_EMBED_OUT="InputData/ttm_regenerate/audio_embed"
 python3 thirdparty/clamp3/clamp3_embd.py "$WAV_DIR" "$AUDIO_EMBED_OUT" --get_global
 
 # 4. 运行推理

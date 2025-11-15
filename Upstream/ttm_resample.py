@@ -22,8 +22,8 @@ def resample_audio(in_path, out_path, target_sr=16000):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_dir", type=str, default = "InputData/ttm/wavs")
-    parser.add_argument("--output_dir", type=str, default = "InputData/ttm/wavs")
+    parser.add_argument("--input_dir", type=str, required= True)
+    parser.add_argument("--output_dir", type=str, required= True)
     parser.add_argument("--sr", type=int, default=16000, help="目标采样率")
     args = parser.parse_args()
 

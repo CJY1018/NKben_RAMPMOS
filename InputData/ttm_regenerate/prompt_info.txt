@@ -1,0 +1,21 @@
+id	text
+P081	This lively syncopated rhythm tune features electronic drums and is perfect for enjoying during travel.
+P082	A beautiful solo song features soaring, high-register female vocals, making it perfect for concert performances.
+P083	This fast-paced, energetic pop track features electronic beats integrated with a rhythmic male hum, creating a vibrant atmosphere.
+P084	A fusion of classical and modern music features symphonic excerpts performed with electronic instrumentation, with bass guitar leading the melody.
+P085	This a cappella piece contains a waltz rhythm, with male vocals delivering the main melody and low harmonies, while female vocals handle the high notes.
+P086	A magical and fantastical electronic music composition features a fusion of instruments like violin, guitar, and bass, creating an immersive background for gaming.
+P087	This Southeast Asian-inspired music piece contains a string quartet, with the cello leading the melody and violin and viola providing accompaniment, perfect for indoor performances.
+P088	A powerful electronic composition features a steady rhythm and is paired with live piano for a grand concert opening.
+P089	This lively swing dance music features a Russian folk style, with a joyful rhythm and narrow tonal range, perfect for ballroom dancing.
+P090	A modern pop song contains orchestral accompaniment, with the violin as the lead instrument, supported by other strings and wind instruments.
+P091	This cheerful children's song features a steady rhythm and small vocal range, performed with a lighthearted tone, perfect for choral competitions.
+P092	A romantic waltz rhythm tune features electronic organ accompaniment, making it ideal for celebratory events.
+P093	This small vocal ensemble piece features integrated accompaniment and vocal harmonies, often heard during travel.
+P094	A pop song contains the guzheng in the interlude, delivering a flowing, high-mountain style melody that blends traditional and modern elements.
+P095	This fresh and simple campus folk-style tune features male vocals accompanied by guitar, often heard in relaxed campus settings.
+P096	A somber Chinese pentatonic melody features a fusion of traditional instruments like the guzheng, pipa, and erhu, suitable for celebratory events.
+P097	This is a pop music piece performed acoustically. The male and female vocals take turns singing melodically as a duet. The melody is being played by a ukulele. The aura of the song is very calm and easygoing. It could be used in the soundtrack of a teenage drama. The music could be playing in the background at a coffee house.
+P098	A tap dance music piece features a distinct tap shoe sound, with fast-paced, tight rhythms, perfect for ballroom dancing.
+P099	This a cappella piece contains double bass accompaniment, with male vocals delivering the main melody, suitable for studio recording.
+P100	A nocturne in a minor key features Impressionist influences, blending popular song elements with a piano-accompanied minor key, performed by female vocals.
